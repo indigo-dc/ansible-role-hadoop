@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<configuration>
+	<property>
+		<name>yarn.resourcemanager.hostname</name>
+{% if hadoop_type_of_node == 'master' %}
+                <value>0.0.0.0</value>
+{% else %}
+                <value>{{ hadoop_master }}</value>
+{% endif %}
+	</property>
+{% for key, value in yarn_props.iteritems() %}
+	<property>
+		<name>{{ key }}</name>
+		<value>{{ value }}</value>
+	</property>
+{% endfor %}
+</configuration>
