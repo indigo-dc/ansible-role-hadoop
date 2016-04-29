@@ -19,6 +19,10 @@
   - openjdk-7-jre-headless
 
 - get_url: url={{ hadoop_mirrors|random }}/hadoop-{{ hadoop_version }}.tar.gz dest=/tmp/hadoop-{{ hadoop_version }}.tar.gz
+  register: result
+  until: result|success
+  retries: 5
+  delay: 2
 
 - unarchive: src=/tmp/hadoop-{{ hadoop_version }}.tar.gz dest=/opt creates=/opt/hadoop-2.7.2
 
