@@ -21,13 +21,16 @@
    - restart yarn-nodemanager
 
 - command: "{{ hadoop_home }}/bin/hdfs namenode -format creates=/tmp/hadoop-root/dfs/name"
-  when: "hadoop_type_of_node == 'master'"
+  when: (hadoop_type_of_node == 'master') or (hadoop_type_of_node == 'namenode')
 
 - iptables: chain=INPUT jump=ACCEPT protocol=tcp destination_port={{item}}
   ignore_errors: yes
   with_items:
   - 8088
   - 50030
+  - 8030
+  - 8031
+  - 8032
 
 - name: Open all ports from ip {{ item.1 }} in the firewall
   iptables: chain=INPUT jump=ACCEPT protocol=tcp source {{ item.1 }}
