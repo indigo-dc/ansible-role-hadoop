@@ -8,7 +8,7 @@ Role Variables
 
 The variables that can be passed to this role and a brief description about them are as follows:
 
-	# The type of the node: slave or master
+	# The type of the node: slave or master or resourcemanager or nodemanager or datanode or namenode 
 	hadoop_type_of_node: slave
 	# Hadoop base directory to install the software
 	hadoop_home: /opt/hadoop-2.X

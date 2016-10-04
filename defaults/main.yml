@@ -1,4 +1,4 @@
-# The type of the node: slave or master
+# The type of the node: slave / master / resourcemanager / nodemanager / datanode / namenode  
 hadoop_type_of_node: slave
 # Hadoop base directory to install the software
 hadoop_home: /opt/hadoop-2.X
