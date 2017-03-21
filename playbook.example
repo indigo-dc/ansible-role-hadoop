@@ -1,0 +1,21 @@
+---
+- hosts: hadoop.master, hadoop.core, hadoop.task
+  become: True
+  roles:
+    - role: geerlingguy.java
+      when: "ansible_os_family == 'RedHat'"
+      java_packages:
+        - java-1.8.0-openjdk
+      java_home:
+        - '/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.121-0.b13.el7_3.x86_64/jre'
+
+- hosts: hadoop.master
+  become: True
+  roles:
+      - { role: 'ostrichops.hadoop', hadoop_master: 'MASTER_NODE_NAME_OR_IP', hadoop_type_of_node: 'master', environment.JAVA_HOME: '/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.121-0.b13.el7_3.x86_64/jre'}
+
+- hosts: hadoop.core, hadoop.task
+  become: True
+  roles:
+      - { role: 'ostrichops.hadoop', hadoop_master: 'MASTER_NODE_NAME_OR_IP'}
+
