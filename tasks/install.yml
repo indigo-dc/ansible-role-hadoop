@@ -27,8 +27,8 @@
   delay: 2
   when: hadoop_type_of_node == 'master'
 
-# other nodes w
-- wait_for: path=/opt/hadoop-{{ hadoop_version }}.tar.gz
+# other nodes wait for it
+- local_action: wait_for path=/opt/hadoop-{{ hadoop_version }}.tar.gz
   when: hadoop_type_of_node != 'master'
 
 - copy: src=/opt/hadoop-{{ hadoop_version }}.tar.gz dest=/opt/hadoop-{{ hadoop_version }}.tar.gz force=no
