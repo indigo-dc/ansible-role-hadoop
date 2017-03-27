@@ -1,6 +1,6 @@
 {% for host in groups['all'] %}
-{% if hostvars[host]['ansible_hostname'] != hadoop_master %}
-{{ hostvars[host]['ansible_hostname'] }}
+{% if hostvars[host]['inventory_hostname'] != hadoop_master %}
+{{ hostvars[host]['inventory_hostname'] }}
 {% endif %}
 {% endfor %}
 
