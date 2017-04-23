@@ -1,0 +1,11 @@
+[hadoop]
+[hadoop.master] 
+hadoopmaster01
+[hadoop.core]
+hadoopcore01
+[hadoop.task]
+hadooptask01
+[hadoop:vars]
+master=hadoopmaster01
+core=hadoopcore01
+task=hadooptask01
