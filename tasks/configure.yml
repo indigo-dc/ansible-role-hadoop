@@ -45,5 +45,3 @@
   with_together:
       - groups.all
       - ansible_all_ipv4_addresses
-
-

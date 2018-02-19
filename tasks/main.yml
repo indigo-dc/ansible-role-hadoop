@@ -3,6 +3,8 @@
 - stat: path=/opt/hadoop
   register: hadoop_installed
 
+- include: install-jdk.yml
+
 - include: install.yml
   when: not hadoop_installed.stat.exists
 

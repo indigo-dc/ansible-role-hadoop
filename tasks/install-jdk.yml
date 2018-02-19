@@ -1,0 +1,3 @@
+---
+script:
+  - 'oracle-java8.sh'
