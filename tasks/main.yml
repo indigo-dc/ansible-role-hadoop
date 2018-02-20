@@ -3,9 +3,9 @@
 - stat: path=/opt/hadoop
   register: hadoop_installed
 
-- include: install-jdk.yml
+- import_tasks: install-jdk.yml
 
-- include: install.yml
-  when: not hadoop_installed.stat.exists
+- import_tasks: install.yml
+#  when: not hadoop_installed.stat.exists
 
-- include: configure.yml
+- import_tasks: configure.yml
