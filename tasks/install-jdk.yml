@@ -4,8 +4,8 @@
 #  local_action: get_url url=https://s3.amazonaws.com/datapassport-lib/{{ jdk_file }}
 #  register: result
 
-- name: Install JDK8
+- name: Yum install JDK8
   yum:
-    name: https://s3.amazonaws.com/datapassport-lib/{{ jdk_file }}
+    name: '{{ jdk_mirrors|random }}/{{ jdk_file }}'
     state: present
   when: "ansible_os_family == 'RedHat'"

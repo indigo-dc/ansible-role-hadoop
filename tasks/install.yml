@@ -49,4 +49,8 @@
 
 - lineinfile: dest="{{ hadoop_home }}/etc/hadoop/hadoop-env.sh" regexp=JAVA_HOME= line="export JAVA_HOME=/usr/java/default"
 
-
+- lineinfile: dest="~/.bash_profile" regexp=HADOOP_HOME= line="export HADOOP_HOME={{ hadoop_home }}"
+    state=present
+    create=true
+    insertafter=EOF
+  become: false
