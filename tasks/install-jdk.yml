@@ -4,8 +4,26 @@
 #  local_action: get_url url=https://s3.amazonaws.com/datapassport-lib/{{ jdk_file }}
 #  register: result
 
+# download only in the ansible master node
+- name: download JDK
+  local_action: get_url url='{{ jdk_mirrors|random }}/{{ jdk_file }}' dest='{{ tmp }}/{{ jdk_file }}' force=no
+  become: false
+  register: result
+  until: result|success
+  retries: 5
+  delay: 2
+  when: hadoop_type_of_node == 'master'
+
+# other nodes wait for it
+- local_action: wait_for path='{{ tmp }}/{{ jdk_file }}'
+  become: false
+  when: hadoop_type_of_node != 'master'
+
+- name: copy to servers
+  copy: src={{ tmp }}/{{ jdk_file }} dest=/opt/{{ jdk_file }} force=no
+
 - name: Yum install JDK8
   yum:
-    name: '{{ jdk_mirrors|random }}/{{ jdk_file }}'
+    name: '/opt/{{ jdk_file }}'
     state: present
   when: "ansible_os_family == 'RedHat'"

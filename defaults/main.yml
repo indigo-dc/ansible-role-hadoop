@@ -1,3 +1,5 @@
+# staging folder
+tmp: /tmp
 # jdk rpm file name
 jdk_file: jdk-8u144-linux-x64.rpm
 # list servers to download jdk
