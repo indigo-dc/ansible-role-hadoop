@@ -1,5 +1,6 @@
 ---
 - template: src=yarn-site.xml dest="{{ hadoop_home }}/etc/hadoop/yarn-site.xml" owner=root group=root
+  name: yarn-site.xml
   notify:
    - restart hadoop-dfs
    - restart yarn-resourcemanager
@@ -7,6 +8,7 @@
    - restart yarn-nodemanager
 
 - template: src=hdfs-site.xml dest="{{ hadoop_home }}/etc/hadoop/hdfs-site.xml" owner=root group=root
+  name: hdfs-site.xml
   notify:
    - restart hadoop-dfs
    - restart yarn-resourcemanager
@@ -14,6 +16,7 @@
    - restart yarn-nodemanager
 
 - template: src=core-site.xml dest="{{ hadoop_home }}/etc/hadoop/core-site.xml" owner=root group=root
+  name: core-site.xml
   notify:
    - restart hadoop-dfs
    - restart yarn-resourcemanager
@@ -21,6 +24,7 @@
    - restart yarn-nodemanager
 
 - template: src=slaves dest="{{ hadoop_home }}/etc/hadoop/slaves" owner=root group=root
+  name: slaves
   notify:
    - refreshDFSNodes
    - refreshYarnNodes
