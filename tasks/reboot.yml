@@ -1,0 +1,12 @@
+---
+- debug: msg="reboot all hadoop components"
+  changed_when: true
+  notify:
+   - restart hadoop-dfs
+   - restart yarn-resourcemanager
+   - refreshDFSNodes
+   - refreshYarnNodes
+   - restart hadoop-datanode
+   - restart yarn-nodemanager
+  tags:
+   - reboot

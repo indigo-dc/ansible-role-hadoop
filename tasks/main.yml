@@ -9,3 +9,5 @@
 #  when: not hadoop_installed.stat.exists
 
 - import_tasks: configure.yml
+
+- import_tasks: reboot.yml
