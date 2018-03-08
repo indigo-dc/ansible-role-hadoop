@@ -15,9 +15,4 @@ hadoop_version: 2.7.5
 # A dictionary with a set of properties to set in the hdfs-site.xml
 hdfs_props: {}
 # A dictionary with a set of properties to set in the yarn-site.xml
-yarn_props: {
-  mapreduce.map.memory.mb: 10240,
-  mapreduce.reduce.memory.mb: 10240,
-  yarn.app.mapreduce.am.resource.mb: 10240,
-  yarn.nodemanager.vmem-check-enabled: false
-}
+yarn_props: {}
