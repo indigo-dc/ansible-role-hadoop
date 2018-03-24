@@ -53,10 +53,10 @@
     content: 'PATH=$PATH:{{ hadoop_home }}/bin'
 
 - name: create home dir for hive
-  command: "{{ hadoop_home }}/bin/hadoop fs -mkdir -r /home/hive && {{ hadoop_home }}/bin/hadoop fs -chown -R hive:hive /home/hive"
+  command: "{{ hadoop_home }}/bin/hadoop fs -mkdir -p /home/hive && {{ hadoop_home }}/bin/hadoop fs -chown -R hive:hive /home/hive"
 
 - name: create home dir for login user
-  command: "{{ hadoop_home }}/bin/hadoop fs -mkdir -r /home/{{ ansible_user_id }} && {{ hadoop_home }}/bin/hadoop fs -chown -R {{ ansible_user_id }}:{{ ansible_user_id }} /home/{{ ansible_user_id }}"
+  command: "{{ hadoop_home }}/bin/hadoop fs -mkdir -p /home/{{ ansible_user_id }} && {{ hadoop_home }}/bin/hadoop fs -chown -R {{ ansible_user_id }}:{{ ansible_user_id }} /home/{{ ansible_user_id }}"
 
 - lineinfile: dest="{{ hadoop_home }}/etc/hadoop/hadoop-env.sh" regexp=JAVA_HOME= line="export JAVA_HOME=/usr/java/default"
 
