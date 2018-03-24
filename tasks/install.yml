@@ -47,7 +47,7 @@
 
 - file: dest=/opt/hadoop src={{ hadoop_home }} state=link
 
-- name: Add another bin dir to system-wide $PATH.
+- name: Add hadoop bin dir to system-wide $PATH.
     copy:
       dest: /etc/profile.d/hadoop-path.sh
       content: 'PATH=$PATH:{{ hadoop_home }}/bin'
