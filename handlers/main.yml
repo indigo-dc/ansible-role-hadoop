@@ -23,3 +23,13 @@
   command: "{{ hadoop_home }}/bin/yarn rmadmin -refreshNodes"
   when: ( hadoop_type_of_node == 'master' ) or ( hadoop_type_of_node == 'resourcemanager' )
   ignore_errors: yes
+
+- name: create home dirs
+  command: "{{ item }}"
+  with_items:
+  - "{{ hadoop_home }}/bin/hadoop fs -mkdir -p /home/hive"
+  - "{{ hadoop_home }}/bin/hadoop fs -chown -R hive:hive /home/hive"
+  - "{{ hadoop_home }}/bin/hadoop fs -mkdir -p /home/{{ ansible_user_id }}"
+  - "{{ hadoop_home }}/bin/hadoop fs -chown -R {{ ansible_user_id }}:{{ ansible_user_id }} /home/{{ ansible_user_id }}"
+  when: ( hadoop_type_of_node == 'master' ) or ( hadoop_type_of_node == 'resourcemanager' )
+  ignore_errors: yes
