@@ -10,4 +10,4 @@
 
 - import_tasks: configure.yml
 
-- import_tasks: reboot.yml
+- import_tasks: restart.yml

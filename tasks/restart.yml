@@ -1,5 +1,5 @@
 ---
-- debug: msg="reboot all hadoop components"
+- debug: msg="restart all hadoop components"
   changed_when: true
   notify:
    - restart hadoop-dfs
@@ -9,4 +9,4 @@
    - restart hadoop-datanode
    - restart yarn-nodemanager
   tags:
-   - reboot
+   - restart
