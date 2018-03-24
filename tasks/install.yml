@@ -59,6 +59,7 @@
   - "{{ hadoop_home }}/bin/hadoop fs -chown -R hive:hive /home/hive"
   - "{{ hadoop_home }}/bin/hadoop fs -mkdir -p /home/{{ ansible_user_id }}"
   - "{{ hadoop_home }}/bin/hadoop fs -chown -R {{ ansible_user_id }}:{{ ansible_user_id }} /home/{{ ansible_user_id }}"
+  when: hadoop_type_of_node == 'master'
 
 - lineinfile: dest="{{ hadoop_home }}/etc/hadoop/hadoop-env.sh" regexp=JAVA_HOME= line="export JAVA_HOME=/usr/java/default"
 
