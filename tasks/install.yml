@@ -47,12 +47,14 @@
 
 - file: dest=/opt/hadoop src={{ hadoop_home }} state=link
 
-- file:
+- name: create ~/bin
+  file:
     path: ~/bin
     state: directory
     recurse: yes
 
-- file: dest=~/bin/hadoop src={{ hadoop_home }}/bin/hadoop state=link
+- name: link hadoop/
+  file: dest=~/bin/hadoop src={{ hadoop_home }}/bin/hadoop state=link
 
 - lineinfile: dest="{{ hadoop_home }}/etc/hadoop/hadoop-env.sh" regexp=JAVA_HOME= line="export JAVA_HOME=/usr/java/default"
 
