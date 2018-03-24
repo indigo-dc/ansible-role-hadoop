@@ -1,5 +1,5 @@
 # staging folder
-tmp: /opt/temp
+tmp: ~/temp
 # jdk rpm file name
 jdk_file: jdk-8u162-linux-x64.rpm
 # list servers to download jdk
