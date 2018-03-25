@@ -4,9 +4,10 @@
   notify:
    - restart hadoop-dfs
    - restart yarn-resourcemanager
-   - refreshDFSNodes
-   - refreshYarnNodes
    - restart hadoop-datanode
    - restart yarn-nodemanager
+   - refreshDFSNodes
+   - refreshYarnNodes
+   - createHomeDirs
   tags:
    - restart
