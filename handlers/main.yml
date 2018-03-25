@@ -26,8 +26,8 @@
 
 - name: create home dirs
   command: |
-    "{{ hadoop_home }}/bin/hadoop fs -mkdir -p /home/{{ item }}"
-    "{{ hadoop_home }}/bin/hadoop fs -chown -R {{ item }}:{{ item }} /home/{{ item }}"
+    {{ hadoop_home }}/bin/hadoop fs -mkdir -p /home/{{ item }}
+    {{ hadoop_home }}/bin/hadoop fs -chown -R {{ item }}:{{ item }} /home/{{ item }}
   with_items:
   - "hive"
   - "{{ ansible_env.SUDO_USER }}"
