@@ -25,12 +25,10 @@
   ignore_errors: yes
 
 - name: create home dirs
-  command: |
+  shell: |
     {{ hadoop_home }}/bin/hadoop fs -mkdir -p /home/{{ item }}
     {{ hadoop_home }}/bin/hadoop fs -chown -R {{ item }}:{{ item }} /home/{{ item }}
   with_items:
   - "hive"
   - "{{ ansible_env.SUDO_USER }}"
   - "{{ ansible_user_id }}"
-  when: ( hadoop_type_of_node == 'master' ) or ( hadoop_type_of_node == 'resourcemanager' )
-  ignore_errors: yes
