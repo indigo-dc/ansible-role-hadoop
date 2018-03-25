@@ -25,7 +25,8 @@
   ignore_errors: yes
 
 - name: create home dirs
-  shell: |
+  shell:
+    |
     {{ hadoop_home }}/bin/hadoop fs -mkdir -p /home/{{ item }}
     {{ hadoop_home }}/bin/hadoop fs -chown -R {{ item }}:{{ item }} /home/{{ item }}
   with_items:
