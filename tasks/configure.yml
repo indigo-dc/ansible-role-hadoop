@@ -49,3 +49,19 @@
   with_together:
       - groups.all
       - ansible_all_ipv4_addresses
+
+- name: createHomeDirs
+  shell: |
+    {{ hadoop_home }}/bin/hadoop fs -mkdir -p /user/{{ item }}
+    {{ hadoop_home }}/bin/hadoop fs -chown -R {{ item }}:{{ item }} /user/{{ item }}
+  with_items:
+    - hive
+    - "{{ ansible_env.SUDO_USER }}"
+    - "{{ ansible_user_id }}"
+  when: ( hadoop_type_of_node == 'master' ) or ( hadoop_type_of_node == 'resourcemanager' )
+
+- name: createTmpDirs
+  shell: |
+    {{ hadoop_home }}/bin/hadoop fs -mkdir -p /tmp
+    {{ hadoop_home }}/bin/hadoop fs -chmod -R 777 /tmp
+  when: ( hadoop_type_of_node == 'master' ) or ( hadoop_type_of_node == 'resourcemanager' )

@@ -8,6 +8,5 @@
    - restart yarn-nodemanager
    - refreshDFSNodes
    - refreshYarnNodes
-   - createHomeDirs
   tags:
    - restart
