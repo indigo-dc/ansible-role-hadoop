@@ -32,9 +32,8 @@
    - restart yarn-nodemanager
 
 - name: namenode format
-  command: "{{ hadoop_home }}/bin/hdfs namenode -format creates={{ hadoop_tmp_dir }}/hadoop-root/dfs/name"
+  command: "{{ hadoop_home }}/bin/hdfs namenode -format creates={{ hadoop_tmp_dir }}/hadoop-root/dfs/name" -force
   when: (hadoop_type_of_node == 'master') or (hadoop_type_of_node == 'namenode')
-  timeout: 30
 
 - iptables: chain=INPUT jump=ACCEPT protocol=tcp destination_port={{item}}
   ignore_errors: yes
