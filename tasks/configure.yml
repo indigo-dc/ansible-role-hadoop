@@ -51,7 +51,8 @@
       - groups.all
       - ansible_all_ipv4_addresses
 
-- meta: flush_handlers
+- name: flush_handlers
+  meta: flush_handlers
 
 - name: createHomeDirs
   shell: |
