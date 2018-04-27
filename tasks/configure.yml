@@ -32,7 +32,7 @@
    - restart yarn-nodemanager
 
 ##TODO: read from hdfs_props/hadoop.tmp.dir, fall back to /tmp/hadoop-root
-- command: "{{ hadoop_home }}/bin/hdfs namenode -format creates=/apps/hadoop/hadoop-root/dfs/name"
+- command: "{{ hadoop_home }}/bin/hdfs namenode -format creates={{ hadoop_temp_dir }}/hadoop-root/dfs/name"
   when: (hadoop_type_of_node == 'master') or (hadoop_type_of_node == 'namenode')
 
 - iptables: chain=INPUT jump=ACCEPT protocol=tcp destination_port={{item}}

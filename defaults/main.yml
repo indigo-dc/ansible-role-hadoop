@@ -8,6 +8,8 @@ jdk_mirrors: ["https://s3.amazonaws.com/datapassport-lib"]
 hadoop_type_of_node: slave
 # Hadoop base directory to install the software
 hadoop_home: /opt/hadoop-2.X
+
+hadoop_temp_dir: /apps/hadoop
 # List of servers to download the hadoop code
 hadoop_mirrors: [ "http://ftp.osuosl.org/pub/apache/hadoop/core/", "http://apache.rediris.es/hadoop/core/", "http://ftp.cixug.es/apache/hadoop/core/", "http://www-eu.apache.org/dist/hadoop/common/" ]
 # Hadoop version to install

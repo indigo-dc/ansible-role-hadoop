@@ -1,5 +1,9 @@
 <?xml version="1.0"?>
 <configuration>
+	<property>
+		<name>hadoop.tmp.dir:</name>
+		<value>{{ hadoop_tmp_dir: }}</value>
+	</property>
 	{% for key, value in hdfs_props.iteritems() %}
 	<property>
 		<name>{{ key }}</name>
