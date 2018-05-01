@@ -6,7 +6,7 @@
 
 # download only in the ansible master node
 - name: download JDK
-  local_action: get_url url='{{ jdk_mirrors|random }}/{{ jdk_file }}' dest='{{ tmp }}/{{ jdk_file }}' force=yes
+  local_action: get_url url='{{ jdk_mirrors|random }}/{{ jdk_file }}' dest='{{ tmp }}/{{ jdk_file }}' force=no
   become: false
   register: result
   until: result|success
