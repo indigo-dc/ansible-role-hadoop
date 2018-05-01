@@ -32,7 +32,7 @@
    - restart yarn-nodemanager
 
 - name: delete tmp
-  file: path="{{ hadoop_tmp_dir }}" status=absent
+  file: path="{{ hadoop_tmp_dir }}" state=absent
 
 - name: namenode format
   command: "{{ hadoop_home }}/bin/hdfs namenode -format creates={{ hadoop_tmp_dir }}/hadoop-root/dfs/name -force"
