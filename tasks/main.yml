@@ -5,6 +5,7 @@
 
 - name: Creates directory
   file: path={{ tmp }} state=directory
+  become: false
 
 - import_tasks: install-jdk.yml
 
