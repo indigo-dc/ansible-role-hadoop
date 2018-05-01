@@ -26,7 +26,7 @@
   - gzip
 
 # download only in the ansible master node
-- local_action: get_url url={{ hadoop_mirrors|random }}/hadoop-{{ hadoop_version }}/hadoop-{{ hadoop_version }}.tar.gz dest="{{ tmp }}/hadoop-{{ hadoop_version }}.tar.gz" force=no
+- local_action: get_url url={{ hadoop_mirrors|random }}/hadoop-{{ hadoop_version }}/hadoop-{{ hadoop_version }}.tar.gz dest="{{ tmp }}/hadoop-{{ hadoop_version }}.tar.gz" force=yes
   become: false
   register: result
   until: result|success
@@ -39,7 +39,7 @@
   become: false
   when: hadoop_type_of_node != 'master'
 
-- copy: src={{ tmp }}/hadoop-{{ hadoop_version }}.tar.gz dest=/opt/hadoop-{{ hadoop_version }}.tar.gz force=no
+- copy: src={{ tmp }}/hadoop-{{ hadoop_version }}.tar.gz dest=/opt/hadoop-{{ hadoop_version }}.tar.gz force=yes
 
 - unarchive: src=/opt/hadoop-{{ hadoop_version }}.tar.gz dest=/opt copy=no
 

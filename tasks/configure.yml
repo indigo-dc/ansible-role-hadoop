@@ -31,6 +31,9 @@
    - restart hadoop-datanode
    - restart yarn-nodemanager
 
+- name: delete hadoop tmp dir.
+  command: "rm -R {{ hadoop_tmp_dir }}"
+
 - name: namenode format
   command: "{{ hadoop_home }}/bin/hdfs namenode -format creates={{ hadoop_tmp_dir }}/hadoop-root/dfs/name -force"
   when: (hadoop_type_of_node == 'master') or (hadoop_type_of_node == 'namenode')
