@@ -38,10 +38,6 @@
 - name: delete tmp
   file: path="{{ hadoop_tmp_dir }}" state=absent
 
-- name: namenode format
-  command: "{{ hadoop_home }}/bin/hdfs namenode -format creates={{ hadoop_tmp_dir }}/hadoop-root/dfs/name -force"
-  when: (hadoop_type_of_node == 'master') or (hadoop_type_of_node == 'namenode')
-
 - iptables: chain=INPUT jump=ACCEPT protocol=tcp destination_port={{item}}
   ignore_errors: yes
   with_items:
