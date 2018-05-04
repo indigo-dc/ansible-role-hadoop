@@ -41,7 +41,7 @@
 
 - copy: src={{ tmp }}/hadoop-{{ hadoop_version }}.tar.gz dest=/opt/hadoop-{{ hadoop_version }}.tar.gz force=yes
 
-- unarchive: src=/opt/hadoop-{{ hadoop_version }}.tar.gz dest=/opt copy=no
+- unarchive: src=/opt/hadoop-{{ hadoop_version }}.tar.gz dest=/opt remote_src=yes
 
 - file: dest={{ hadoop_home }} src=/opt/hadoop-{{ hadoop_version }} state=link
 
