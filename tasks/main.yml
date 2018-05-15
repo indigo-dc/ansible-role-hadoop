@@ -3,8 +3,7 @@
 - stat: path=/opt/hadoop
   register: hadoop_installed
 
-- name: Creates directory
-  file: path={{ tmp }} state=directory
+- local_action: file path='{{ tmp }}' state='directory'
   become: false
 
 - import_tasks: install-jdk.yml
