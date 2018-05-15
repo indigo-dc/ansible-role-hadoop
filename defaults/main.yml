@@ -1,5 +1,7 @@
 # staging folder
 tmp: ~/temp
+# installation folder
+opt: /opt
 # jdk rpm file name
 jdk_file: jdk-8u162-linux-x64.rpm
 # list servers to download jdk
@@ -7,7 +9,7 @@ jdk_mirrors: ["https://s3.amazonaws.com/datapassport-lib"]
 # The type of the node: slave / master / resourcemanager / nodemanager / datanode / namenode
 hadoop_type_of_node: slave
 # Hadoop base directory to install the software
-hadoop_home: /opt/hadoop-2.X
+hadoop_home: "{{ opt }}/hadoop-2.X"
 
 hadoop_tmp_dir: /apps/hadoop
 # List of servers to download the hadoop code
