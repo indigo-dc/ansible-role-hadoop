@@ -18,6 +18,10 @@ hadoop_mirrors: [ "http://ftp.osuosl.org/pub/apache/hadoop/core/", "http://apach
 hadoop_version: 2.7.6
 # A dictionary with a set of properties to set in the hdfs-site.xml
 hdfs_props: {
+  dfs.replication: 2,
+  dfs.namenode.datanode.registration.ip-hostname-check: "false",
+  dfs.client.use.datanode.hostname: "false",
+  dfs.datanode.use.datanode.hostname: "false"
 }
 # A dictionary with a set of properties to set in the yarn-site.xml
 yarn_props: {
