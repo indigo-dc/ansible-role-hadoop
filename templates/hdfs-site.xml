@@ -4,7 +4,7 @@
 		<name>hadoop.tmp.dir</name>
 		<value>{{ hadoop_tmp_dir }}</value>
 	</property>
-	{% for key, value in hdfs_props.iteritems() %}
+	{% for key, value in hdfs_props.items() %}
 	<property>
 		<name>{{ key }}</name>
 		<value>{{ value }}</value>
