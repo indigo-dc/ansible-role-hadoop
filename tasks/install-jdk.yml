@@ -1,5 +1,3 @@
----
-
 #- name: Download Oracle JDK8
 #  local_action: get_url url=https://s3.amazonaws.com/datapassport-lib/{{ jdk_file }}
 #  register: result
@@ -30,7 +28,7 @@
   when: "ansible_os_family == 'RedHat'"
 
 - name: download unlimited strength
-  local_action: get_url url='{{ jdk_mirrors|random }}/jce_policy-8.zip' dest='{{ tmp }}/jce_policy-8.zip' force=no
+  local_action: get_url url='{{ jdk_mirrors|random }}/jce_policy-8.tar' dest='{{ tmp }}/jce_policy-8.tar' force=no
   become: false
   register: result
   until: result is success
@@ -39,4 +37,4 @@
   when: hadoop_type_of_node == 'master'
 
 - name: unarchive unlimited strength
-  unarchive: src='{{ tmp }}/jce_policy-8.zip' dest="/usr/java/latest/jre/lib/security"
+  unarchive: src='{{ tmp }}/jce_policy-8.tar' dest="/usr/java/latest/jre/lib/security"

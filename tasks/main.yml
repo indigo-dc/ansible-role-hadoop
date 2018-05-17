@@ -6,10 +6,12 @@
 - local_action: file path='{{ tmp }}' state='directory'
   become: false
 
-- import_tasks: install.yml
-#  when: not hadoop_installed.stat.exists
+- import_tasks: install-packages.yml
 
 - import_tasks: install-jdk.yml
+
+- import_tasks: install.yml
+#  when: not hadoop_installed.stat.exists
 
 - import_tasks: configure.yml
 
