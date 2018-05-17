@@ -28,5 +28,6 @@ yarn_props: {
   mapreduce.map.memory.mb: 10240,
   mapreduce.reduce.memory.mb: 10240,
   yarn.app.mapreduce.am.resource.mb: 10240,
-  yarn.nodemanager.vmem-check-enabled: false
+  yarn.nodemanager.vmem-check-enabled: false,
+  yarn.nodemanager.log-dirs: /tmp/userlogs
 }

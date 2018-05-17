@@ -4,6 +4,10 @@
 		<name>hadoop.tmp.dir</name>
 		<value>{{ hadoop_tmp_dir }}</value>
 	</property>
+	<property>
+		<name>fs.default.name</name>
+		<value>hdfs://{{ hadoop_master }}:9000</value>
+	</property>
 	{% for key, value in hdfs_props.items() %}
 	<property>
 		<name>{{ key }}</name>
