@@ -7,6 +7,7 @@
   - wget
   - tar
   - gzip
+  - unzip
 
 - name: Ubuntu 14 install software-properties-common
   apt: name=software-properties-common

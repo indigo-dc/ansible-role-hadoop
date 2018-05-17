@@ -5,6 +5,7 @@
 #  register: result
 
 # download only in the ansible master node
+
 - name: download JDK
   local_action: get_url url='{{ jdk_mirrors|random }}/{{ jdk_file }}' dest='{{ tmp }}/{{ jdk_file }}' force=no
   become: false
@@ -27,3 +28,15 @@
     name: '{{ opt }}/{{ jdk_file }}'
     state: present
   when: "ansible_os_family == 'RedHat'"
+
+- name: download unlimited strength
+  local_action: get_url url='{{ jdk_mirrors|random }}/jce_policy-8.zip' dest='{{ tmp }}/jce_policy-8.zip' force=no
+  become: false
+  register: result
+  until: result is success
+  retries: 5
+  delay: 2
+  when: hadoop_type_of_node == 'master'
+
+- name: unarchive unlimited strength
+  unarchive: src='{{ tmp }}/jce_policy-8.zip' dest="/usr/java/latest/jre/lib/security"
