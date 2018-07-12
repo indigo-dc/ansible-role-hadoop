@@ -51,6 +51,11 @@
     creates: "/opt/hadoop-{{ hadoop_version }}"
     copy: no
 
+- name: Remove hadoop tar.gz
+  file:
+    path: "/tmp/hadoop-{{ hadoop_version }}.tar.gz"
+    state: absent
+
 - name: Link hadoop
   file: 
     dest: "{{ hadoop_home }}"
