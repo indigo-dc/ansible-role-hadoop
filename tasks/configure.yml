@@ -51,7 +51,7 @@
   command: "{{ hadoop_home }}/bin/hdfs namenode -format creates=/tmp/hadoop-root/dfs/name"
   when: (hadoop_type_of_node == 'master') or (hadoop_type_of_node == 'namenode')
 
-- name: "Configure IPTables - Accept TCP input from port {{item}}"
+- name: "Configure IPTables - Accept TCP input from several ports"
   iptables: 
     chain: INPUT 
     jump: ACCEPT 
