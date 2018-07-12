@@ -10,11 +10,13 @@
   - java-1.8.0-openjdk
 
 - name: Ubuntu 14 install software-properties-common
-  apt: name=software-properties-common
+  apt:
+    name: software-properties-common
   when: ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "14"
 
 - name: Ubuntu 14 install OpenJDK PPA repo
-  apt_repository: repo='ppa:openjdk-r/ppa'
+  apt_repository:
+    repo: 'ppa:openjdk-r/ppa'
   when: ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "14"
 
 # Debian related OSs
@@ -28,26 +30,48 @@
   - openjdk-8-jre
 
 # download only in the ansible master node
-- local_action: get_url url={{ hadoop_mirrors|random }}/hadoop-{{ hadoop_version }}.tar.gz dest=/opt/hadoop-{{ hadoop_version }}.tar.gz force=no
+- name: Get hadoop tar.gz
+  local_action: 
+    get_url:
+      url: "{{ hadoop_mirrors | random }}/hadoop-{{ hadoop_version }}/hadoop-{{ hadoop_version }}.tar.gz"
+      dest: "/tmp/hadoop-{{ hadoop_version }}.tar.gz"
+      force: no
   register: result
-  until: result|success
+  until: result | success
   retries: 5
-  delay: 2
+  delay: 1
   when: hadoop_type_of_node == 'master'
 
 # other nodes wait for it
-- local_action: wait_for path=/opt/hadoop-{{ hadoop_version }}.tar.gz
+- name: Wait for hadoop tar.gz
+  local_action: 
+    wait_for:
+      path: "/tmp/hadoop-{{ hadoop_version }}.tar.gz"
   when: hadoop_type_of_node != 'master'
 
-- copy: src=/opt/hadoop-{{ hadoop_version }}.tar.gz dest=/opt/hadoop-{{ hadoop_version }}.tar.gz force=no
+- name: Copy hadoop tar.gz
+  copy:
+    src: "/tmp/hadoop-{{ hadoop_version }}.tar.gz"
+    dest: "/tmp/hadoop-{{ hadoop_version }}.tar.gz"
+    force: no
 
-- unarchive: src=/opt/hadoop-{{ hadoop_version }}.tar.gz dest=/opt creates=/opt/hadoop-{{ hadoop_version }} copy=no
+- name: Unzip hadoop tar.gz
+  unarchive: 
+    src: "/tmp/hadoop-{{ hadoop_version }}.tar.gz"
+    dest: /opt
+    creates: "/opt/hadoop-{{ hadoop_version }}"
+    copy: no
 
-- file: dest={{ hadoop_home }} src=/opt/hadoop-{{ hadoop_version }} state=link
+- name: Link hadoop
+  file: 
+    dest: "{{ hadoop_home }}"
+    src: "/opt/hadoop-{{ hadoop_version }}"
+    state: link
 
-- file: dest=/opt/hadoop src={{ hadoop_home }} state=link
-
-- lineinfile: dest="{{ hadoop_home }}/etc/hadoop/hadoop-env.sh" regexp=JAVA_HOME= line="export JAVA_HOME={{item}}"
+- name: Add JAVA_HOME in hadoop ENV
+  lineinfile: 
+    dest: "{{ hadoop_home }}/etc/hadoop/hadoop-env.sh"
+    regexp: 'JAVA_HOME= line="export JAVA_HOME={{item}}"'
   with_first_found:
    - /usr/lib/jvm/java-8-openjdk-amd64
    - /usr/lib/jvm/jre-1.8.0
