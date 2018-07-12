@@ -1,17 +1,17 @@
 - name: restart hadoop-dfs
-  action: shell {{ hadoop_home }}/sbin/hadoop-daemon.sh  --script hdfs stop namenode; {{ hadoop_home }}/sbin/hadoop-daemon.sh  --script hdfs start namenode
+  shell: "{{ hadoop_home }}/bin/hdfs --daemon stop namenode; {{ hadoop_home }}/bin/hdfs --daemon start namenode"
   when: ( hadoop_type_of_node == 'master' ) or ( hadoop_type_of_node == 'namenode' )
   
 - name: restart yarn-resourcemanager
-  action: shell {{ hadoop_home }}/sbin/yarn-daemon.sh stop resourcemanager; {{ hadoop_home }}/sbin/yarn-daemon.sh start resourcemanager
+  shell: "{{ hadoop_home }}/bin/yarn --daemon stop resourcemanager; {{ hadoop_home }}/bin/yarn --daemon start resourcemanager"
   when: ( hadoop_type_of_node == 'master' ) or ( hadoop_type_of_node == 'resourcemanager' )
    
 - name: restart hadoop-datanode
-  action: shell {{ hadoop_home }}/sbin/hadoop-daemon.sh  --script hdfs stop datanode; {{ hadoop_home }}/sbin/hadoop-daemon.sh  --script hdfs start datanode
+  shell: "{{ hadoop_home }}/bin/hdfs --daemon stop datanode; {{ hadoop_home }}/bin/hdfs --daemon start datanode"
   when: ( hadoop_type_of_node == 'slave' ) or ( hadoop_type_of_node == 'datanode' )
   
 - name: restart yarn-nodemanager
-  action: shell {{ hadoop_home }}/sbin/yarn-daemon.sh stop nodemanager; {{ hadoop_home }}/sbin/yarn-daemon.sh start nodemanager
+  shell: "{{ hadoop_home }}/bin/yarn --daemon stop nodemanager; {{ hadoop_home }}/bin/yarn --daemon start nodemanager"
   when: ( hadoop_type_of_node == 'slave' ) or ( hadoop_type_of_node == 'nodemanager' )
   
 - name: refreshDFSNodes
