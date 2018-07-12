@@ -1,4 +1,4 @@
 ---
 - hosts: localhost
   roles:
-    - role_under_test
+    - ansible-role-hadoop
