@@ -3,7 +3,7 @@
 - name: Yum install {{ item }}
   action: 
     yum:
-      pkg: {{ item }}
+      name: {{ item }}
       state: present
   with_items:
   - wget
