@@ -14,11 +14,11 @@ The variables that can be passed to this role and a brief description about them
 	hadoop_home: /opt/hadoop
 	# List of servers to download the hadoop code
 	hadoop_mirrors: [ 
-		"http://apache.rediris.es/hadoop/common/",
-		"http://apache.panu.it/hadoop/common/",
-		"http://apache.lauf-forum.at/hadoop/common/",
-		"http://apache.mindstudios.com/hadoop/common/",
-		"http://www-eu.apache.org/dist/hadoop/common/"
+		"http://apache.rediris.es/hadoop/common",
+		"http://apache.panu.it/hadoop/common",
+		"http://apache.lauf-forum.at/hadoop/common",
+		"http://apache.mindstudios.com/hadoop/common",
+		"http://www-eu.apache.org/dist/hadoop/common"
 	]
 	# Hadoop version to install
 	hadoop_version: 3.1.0
