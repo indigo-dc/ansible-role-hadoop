@@ -42,7 +42,7 @@
     dest: "/tmp/hadoop-{{ hadoop_version }}.tar.gz"
     force: no
   register: result
-  until: result | success
+  until: result is success
   retries: 5
   delay: 1
   when: hadoop_type_of_node == 'master'
@@ -58,6 +58,7 @@
   copy:
     src: "/tmp/hadoop-{{ hadoop_version }}.tar.gz"
     dest: "/tmp/hadoop-{{ hadoop_version }}.tar.gz"
+    remote_src: yes
     force: no
 
 - name: Unzip hadoop tar.gz
