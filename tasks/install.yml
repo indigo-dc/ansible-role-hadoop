@@ -3,7 +3,7 @@
 - name: Yum install {{ item }}
   action: 
     yum:
-      name: {{ item }}
+      name: "{{ item }}"
       state: present
   with_items:
   - wget
@@ -26,15 +26,15 @@
 - name: Apt install {{ item }}
   action:
     apt:
-      pkg: {{ item }}
+      name: "{{ item }}"
       state: present
       update_cache: yes
-  when: "ansible_os_family == 'Debian'"
   with_items:
   - wget
   - tar
   - gzip
   - openjdk-8-jre
+  when: "ansible_os_family == 'Debian'"
 
 # download only in the ansible master node
 - name: Get hadoop tar.gz
