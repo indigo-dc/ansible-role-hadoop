@@ -22,7 +22,7 @@
   when: ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "14"
 
 # Debian related OSs
-- name: "Apt install {{ item }}"
+- name: "Apt install requirements"
   apt:
     name: "{{ item }}"
     state: present
