@@ -1,10 +1,9 @@
 ---
 # RedHat related OSs
 - name: Yum install {{ item }}
-  action: 
-    yum:
-      name: "{{ item }}"
-      state: present
+  yum:
+    name: "{{ item }}"
+    state: present
   with_items:
   - wget
   - tar
