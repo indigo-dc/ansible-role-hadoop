@@ -23,11 +23,10 @@
 
 # Debian related OSs
 - name: "Apt install {{ item }}"
-  action:
-    apt:
-      name: "{{ item }}"
-      state: present
-      update_cache: yes
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
   with_items:
   - wget
   - tar
