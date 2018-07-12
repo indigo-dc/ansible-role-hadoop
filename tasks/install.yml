@@ -36,30 +36,13 @@
 
 # download only in the ansible master node
 - name: Get hadoop tar.gz
-  local_action: 
-    module: get_url
+  get_url:
     url: "{{ hadoop_mirrors | random }}/hadoop-{{ hadoop_version }}/hadoop-{{ hadoop_version }}.tar.gz"
     dest: "/tmp/hadoop-{{ hadoop_version }}.tar.gz"
-    force: no
   register: result
   until: result is success
   retries: 5
   delay: 1
-  when: hadoop_type_of_node == 'master'
-
-# other nodes wait for it
-- name: Wait for hadoop tar.gz
-  local_action: 
-    module: wait_for
-    path: "/tmp/hadoop-{{ hadoop_version }}.tar.gz"
-  when: hadoop_type_of_node != 'master'
-
-- name: Copy hadoop tar.gz
-  copy:
-    src: "/tmp/hadoop-{{ hadoop_version }}.tar.gz"
-    dest: "/tmp/hadoop-{{ hadoop_version }}.tar.gz"
-    remote_src: yes
-    force: no
 
 - name: Unzip hadoop tar.gz
   unarchive: 
