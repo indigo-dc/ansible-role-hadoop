@@ -50,8 +50,8 @@
 # other nodes wait for it
 - name: Wait for hadoop tar.gz
   local_action: 
-    wait_for:
-      path: "/tmp/hadoop-{{ hadoop_version }}.tar.gz"
+    module: wait_for
+    path: "/tmp/hadoop-{{ hadoop_version }}.tar.gz"
   when: hadoop_type_of_node != 'master'
 
 - name: Copy hadoop tar.gz
