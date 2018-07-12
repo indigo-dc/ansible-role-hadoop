@@ -61,7 +61,7 @@
 
 - name: Add JAVA_HOME in hadoop ENV
   lineinfile: 
-    path: "{{ hadoop_home }}/etc/hadoop/hadoop-env.sh"
+    dest: "{{ hadoop_home }}/etc/hadoop/hadoop-env.sh"
     regexp: "export\ JAVA_HOME="
     line: "export JAVA_HOME={{item}}"
   with_first_found:
