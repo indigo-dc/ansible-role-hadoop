@@ -60,8 +60,8 @@
 - name: Add JAVA_HOME in hadoop ENV
   lineinfile: 
     dest: "{{ hadoop_home }}/etc/hadoop/hadoop-env.sh"
-    regexp: 'JAVA_HOME= line="export JAVA_HOME={{item}}"'
-    state: present
+    regexp: "JAVA_HOME="
+    line: "export JAVA_HOME={{item}}"
   with_first_found:
    - /usr/lib/jvm/java-8-openjdk-amd64
    - /usr/lib/jvm/jre-1.8.0
