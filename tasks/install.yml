@@ -1,13 +1,16 @@
 ---
 # RedHat related OSs
 - name: Yum install {{ item }}
-  action: yum pkg={{ item }} state=installed
-  when: "ansible_os_family == 'RedHat'"
+  action: 
+    yum:
+      pkg: {{ item }}
+      state: present
   with_items:
   - wget
   - tar
   - gzip
   - java-1.8.0-openjdk
+  when: "ansible_os_family == 'RedHat'"
 
 - name: Ubuntu 14 install software-properties-common
   apt:
@@ -21,7 +24,11 @@
 
 # Debian related OSs
 - name: Apt install {{ item }}
-  action: apt pkg={{ item }} state=installed update_cache=yes cache_valid_time=604800
+  action:
+    apt:
+      pkg: {{ item }}
+      state: present
+      update_cache: yes
   when: "ansible_os_family == 'Debian'"
   with_items:
   - wget
