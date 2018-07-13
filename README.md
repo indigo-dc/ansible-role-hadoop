@@ -44,6 +44,30 @@ In the "Manager Node"
     - { role: 'indigo-dc.hadoop', hadoop_master: 'MASTER_NODE_NAME_OR_IP', hadoop_type_of_node: 'master'}
 ```
 
+HADOOP ports
+------------
+
+From hadoop 3.0.0 ports are changed for several services: [bug-tracker](https://issues.apache.org/jira/browse/HDFS-9427)
+This is the new configuration:
+
+- Namenode ports: 
+  |  OLD | NEW  |
+  |:----:|:----:|
+  | 50470|9871  |
+  | 50070|9870  |
+  |  8020|9820  |
+- Secondary NN ports:
+  |  OLD | NEW  |
+  |:----:|:----:|
+  | 50091|9869  |
+  | 50090|9868  |
+- Datanode ports:
+  |  OLD | NEW  |
+  |:----:|:----:|
+  | 50020|9867  |
+  | 50010|9866  |
+  | 50475|9865  |
+  | 50075|9864  |
 
 License
 -------
