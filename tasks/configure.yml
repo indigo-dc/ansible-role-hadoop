@@ -50,29 +50,3 @@
 - name: Run hdfs
   command: "{{ hadoop_home }}/bin/hdfs namenode -format creates=/tmp/hadoop-root/dfs/name"
   when: (hadoop_type_of_node == 'master') or (hadoop_type_of_node == 'namenode')
-
-- name: "Configure IPTables - Accept TCP input from several ports"
-  iptables: 
-    chain: INPUT 
-    jump: ACCEPT 
-    protocol: tcp 
-    destination_port: "{{item}}"
-  ignore_errors: yes
-  with_items:
-  - 8088
-  - 50030
-  - 8030
-  - 8031
-  - 8032
-
-- name: "Open all ports from ip {{ item.1 }} in the firewall"
-  iptables: 
-    chain: INPUT 
-    jump: ACCEPT 
-    protocol: "tcp source {{ item.1 }}"
-  ignore_errors: yes
-  with_together:
-      - groups.all
-      - ansible_all_ipv4_addresses
-
-
