@@ -40,7 +40,7 @@
     url: "{{ hadoop_mirrors | random }}/hadoop-{{ hadoop_version }}/hadoop-{{ hadoop_version }}.tar.gz"
     dest: "/tmp/hadoop-{{ hadoop_version }}.tar.gz"
   register: result
-  until: result is success
+  until: result is succeeded
   retries: 5
   delay: 1
 
