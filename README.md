@@ -74,6 +74,8 @@ This is the new configuration:
   | 50475|9865  |
   | 50075|9864  |
 
+> Note: if you use the older version you have no differences
+
 License
 -------
 

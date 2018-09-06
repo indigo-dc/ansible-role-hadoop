@@ -11,10 +11,10 @@ hadoop_mirrors: [
   "http://www-eu.apache.org/dist/hadoop/common"
 ]
 # Hadoop version to install
-hadoop_version: 3.1.1
+hadoop_version: 2.7.7
 # A dictionary with a set of properties to set in the hdfs-site.xml
 hdfs_props: {
-  'dfs.webhdfs.enabled': true
+  # 'dfs.webhdfs.enabled': true
 }
 # A dictionary with a set of properties to set in the yarn-site.xml
 yarn_props: {}
