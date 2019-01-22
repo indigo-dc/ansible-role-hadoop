@@ -1,7 +1,7 @@
 ---
-# Add a fast check to speed reconfiguration
-- stat: path={{ opt }}/hadoop
-  register: hadoop_installed
+## Add a fast check to speed reconfiguration
+#- stat: path={{ opt }}/hadoop
+#  register: hadoop_installed
 
 - local_action: file path='{{ tmp }}' state='directory'
   become: false
