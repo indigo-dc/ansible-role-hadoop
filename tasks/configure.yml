@@ -53,8 +53,3 @@
   with_together:
       - groups.all
       - ansible_all_ipv4_addresses
-
-- name: Create yarn log directory
-  file:
-    path: "{{ yarn_props[yarn.nodemanager.log-dirs] }}"
-    state: directory
