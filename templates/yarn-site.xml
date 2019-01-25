@@ -3,17 +3,17 @@
 	<property>
 		
 {% if hadoop_type_of_node == 'master' %}
-					 <name>yarn.resourcemanager.hostname</name>
-                <value>0.0.0.0</value>
+		<name>yarn.resourcemanager.hostname</name>
+		<value>0.0.0.0</value>
 {% elif hadoop_type_of_node == 'resourcemanager' %}
-					 <name>yarn.resourcemanager.hostname</name>
-	 				 <value>0.0.0.0</value>
+		<name>yarn.resourcemanager.hostname</name>
+		<value>0.0.0.0</value>
 {% elif hadoop_type_of_node == 'nodemanager' %}
-					 <name>yarn.resourcemanager.hostname</name>
-                <value>{{ hadoop_master }}</value>
+		<name>yarn.resourcemanager.hostname</name>
+		<value>{{ hadoop_master }}</value>
 {% elif hadoop_type_of_node == 'slave' %}
-					 <name>yarn.resourcemanager.hostname</name>
-                <value>{{ hadoop_master }}</value>
+		<name>yarn.resourcemanager.hostname</name>
+		<value>{{ hadoop_master }}</value>
 {% endif %}
 	</property>
 
