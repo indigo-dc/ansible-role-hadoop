@@ -9,7 +9,7 @@ Role Variables
 The variables that can be passed to this role and a brief description about them are as follows:
 
 	# The type of the node: slave or master or resourcemanager or nodemanager or datanode or namenode 
-	hadoop_type_of_node: slave
+	hadoop_node_type: slave
 	# Hadoop base directory to install the software
 	hadoop_home: /opt/hadoop
 	# List of servers to download the hadoop code
@@ -41,7 +41,7 @@ In the "Worker Nodes"
 In the "Manager Node"
 ```yml
   roles:
-    - { role: 'indigo-dc.hadoop', hadoop_master: 'MASTER_NODE_NAME_OR_IP', hadoop_type_of_node: 'master'}
+    - { role: 'indigo-dc.hadoop', hadoop_master: 'MASTER_NODE_NAME_OR_IP', hadoop_node_type: 'master'}
 ```
 
 HADOOP ports

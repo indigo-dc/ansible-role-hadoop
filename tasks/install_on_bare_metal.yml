@@ -11,15 +11,15 @@
   - java-1.8.0-openjdk
   when: "ansible_os_family == 'RedHat'"
 
-- name: Ubuntu 14 install software-properties-common
+- name: Ubuntu install software-properties-common
   apt:
     name: software-properties-common
-  when: ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "14"
+  when: ansible_distribution == "Ubuntu"
 
 - name: Ubuntu 14 install OpenJDK PPA repo
   apt_repository:
     repo: 'ppa:openjdk-r/ppa'
-  when: ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "14"
+  when: ansible_distribution == "Ubuntu"
 
 # Debian related OSs
 - name: "Apt install requirements"
@@ -31,10 +31,9 @@
   - wget
   - tar
   - gzip
-  - openjdk-8-jre
+  - openjdk-8-jre-headless
   when: "ansible_os_family == 'Debian'"
 
-# download only in the ansible master node
 - name: Get hadoop tar.gz
   get_url:
     url: "{{ hadoop_mirrors | random }}/hadoop-{{ hadoop_version }}/hadoop-{{ hadoop_version }}.tar.gz"
@@ -65,11 +64,55 @@
 - name: Rename folder
   command: "mv /opt/hadoop-{{ hadoop_version }} {{ hadoop_home }}"
 
+- name: Add JAVA_HOME in ENV
+  lineinfile:
+    path: "/etc/environment"
+    line: "JAVA_HOME={{item}}"
+  with_first_found:
+    - /usr/lib/jvm/java-8-openjdk-amd64
+    - /usr/lib/jvm/jre-1.8.0
+
+- name: Add HADOOP_HOME in ENV
+  lineinfile:
+    path: "/etc/environment"
+    line: "HADOOP_HOME={{hadoop_home}}"
+
 - name: Add JAVA_HOME in hadoop ENV
   lineinfile: 
     dest: "{{ hadoop_home }}/etc/hadoop/hadoop-env.sh"
-    regexp: "export\ JAVA_HOME="
+    regexp: "# export\ JAVA_HOME="
     line: "export JAVA_HOME={{item}}"
   with_first_found:
-   - /usr/lib/jvm/java-8-openjdk-amd64
-   - /usr/lib/jvm/jre-1.8.0
+    - /usr/lib/jvm/java-8-openjdk-amd64
+    - /usr/lib/jvm/jre-1.8.0
+
+- name: Add HADOOP_HOME in hadoop ENV
+  lineinfile: 
+    dest: "{{ hadoop_home }}/etc/hadoop/hadoop-env.sh"
+    regexp: "# export\ HADOOP_HOME="
+    line: "export HADOOP_HOME={{hadoop_home}}"
+
+- name: Add JAVA bin dir to system-wide $PATH.
+  copy:
+    dest: /etc/profile.d/java.sh
+    content: 'PATH=$PATH:$JAVA_HOME/bin'
+
+- name: Add HADOOP bin dir to system-wide $PATH.
+  copy:
+    dest: /etc/profile.d/hadoop.sh
+    content: 'PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin'
+
+- name: Create data dir
+  file:
+    path: "{{ hadoop_home }}/data"
+    state: directory
+
+- name: Create data namenode dir
+  file:
+    path: "{{ hadoop_home }}/data/nameNode"
+    state: directory
+
+- name: Create data datanode dir
+  file:
+    path: "{{ hadoop_home }}/data/dataNode"
+    state: directory

@@ -3,5 +3,3 @@
 {{ hostvars[host]['ansible_hostname'] }}
 {% endif %}
 {% endfor %}
-
-

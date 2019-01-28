@@ -1,5 +1,12 @@
-# The type of the node: slave / master / resourcemanager / nodemanager / datanode / namenode  
-hadoop_type_of_node: slave
+# Targets: 
+#   - hdfs (implemented)
+#   - hdfsOnYARN
+#   - hdfsOnMesos
+target: hdfs
+# The type of the node: master / worker
+hadoop_node_type: worker
+# Roles: master -> [namenode, resourcemanager] and worker -> [datanode, nodemanager]
+hadoop_node_role: all
 # Hadoop base directory to install the software
 hadoop_home: /opt/hadoop
 # List of servers to download the hadoop code
@@ -15,6 +22,8 @@ hadoop_version: 3.2.0
 # A dictionary with a set of properties to set in the hdfs-site.xml
 hdfs_props: {
   # 'dfs.webhdfs.enabled': true
+  'dfs.replication': 0
 }
 # A dictionary with a set of properties to set in the yarn-site.xml
 yarn_props: {}
+hdfs_port: 9000

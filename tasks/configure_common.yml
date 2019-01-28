@@ -1,0 +1,25 @@
+---
+- name: Compile core-site template
+  template:
+    src: core-site.xml
+    dest: "{{ hadoop_home }}/etc/hadoop/core-site.xml"
+    owner: root
+    group: root
+
+- name: Compile hdfs-site template
+  template:
+    src: hdfs-site.xml
+    dest: "{{ hadoop_home }}/etc/hadoop/hdfs-site.xml"
+    owner: root
+    group: root
+
+- name: Compile workers template
+  template:
+    src: workers
+    dest: "{{ hadoop_home }}/etc/hadoop/workers"
+    owner: root
+    group: root
+
+- name: format HDFS
+  command: "{{ hadoop_home }}/bin/hdfs namenode -format"
+  when: (hadoop_node_type == 'master' and hadoop_node_role == 'all') or (hadoop_node_type == 'master' and hadoop_node_role == 'namenode')

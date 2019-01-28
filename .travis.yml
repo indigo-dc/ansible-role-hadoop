@@ -32,10 +32,10 @@ script:
   - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml --syntax-check'
 
   # Test role installation in master.
-  - 'docker exec "$(cat ${container_id})" ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml -e "hadoop_type_of_node=master hadoop_master=localhost"'
+  - 'docker exec "$(cat ${container_id})" ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml -e "hadoop_node_type=master hadoop_master=localhost"'
 
   # Test role installation in slave.
-  - 'docker exec "$(cat ${container_id})" ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml -e "hadoop_type_of_node=slave hadoop_master=localhost"'
+  - 'docker exec "$(cat ${container_id})" ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml -e "hadoop_node_type=slave hadoop_master=localhost"'
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/

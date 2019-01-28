@@ -49,4 +49,4 @@
 
 - name: Run hdfs
   command: "{{ hadoop_home }}/bin/hdfs namenode -format creates=/tmp/hadoop-root/dfs/name"
-  when: (hadoop_type_of_node == 'master') or (hadoop_type_of_node == 'namenode')
+  when: (hadoop_node_type == 'master') or (hadoop_node_type == 'namenode')

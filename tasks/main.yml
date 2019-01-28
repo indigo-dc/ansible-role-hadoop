@@ -1,12 +1,6 @@
 ---
-- name: Add a fast check to speed reconfiguration
-  stat: 
-    path: /opt/hadoop
-  register: hadoop_installed
-
 - name: Install hadoop components
-  include: install.yml  # have to be replaced with include_tasks, available from ansible 2.4
-  when: not hadoop_installed.stat.exists
+  include_tasks: install_on_bare_metal.yml
 
-- name: Configure hadoop components
-  include: configure.yml  # have to be replaced with include_tasks, available from ansible 2.4
+- name: Configure hadoop common components
+  include_tasks: configure_common.yml
