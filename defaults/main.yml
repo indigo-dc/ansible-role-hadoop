@@ -16,7 +16,6 @@ hadoop_home: /opt/hadoop
 # List of servers to download the hadoop code
 hadoop_mirrors: [ 
   "http://apache.rediris.es/hadoop/common",
-  "http://apache.panu.it/hadoop/common",
   "http://apache.lauf-forum.at/hadoop/common",
   "http://www-eu.apache.org/dist/hadoop/common"
 ]
