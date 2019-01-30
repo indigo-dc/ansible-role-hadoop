@@ -1,6 +1,6 @@
 ---
 - name: Install hadoop components
-  include_tasks: install_on_bare_metal.yml
+  include: install_on_bare_metal.yml
 
 - name: Configure hadoop common components
-  include_tasks: configure_common.yml
+  include: configure_common.yml
