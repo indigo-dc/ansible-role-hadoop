@@ -92,6 +92,15 @@
     regexp: "# export\ HADOOP_HOME="
     line: "export HADOOP_HOME={{hadoop_home}}"
 
+- name: Add HDFS user root in hadoop ENV
+  lineinfile: 
+    dest: "{{ hadoop_home }}/etc/hadoop/hadoop-env.sh"
+    line: "{{ item }}"
+  with_items:
+    - "export HDFS_NAMENODE_USER=root"
+    - "export HDFS_DATANODE_USER=root"
+    - "export HDFS_SECONDARYNAMENODE_USER=root"
+
 - name: Add JAVA bin dir to system-wide $PATH.
   copy:
     dest: /etc/profile.d/java.sh
