@@ -95,12 +95,12 @@
 - name: Add JAVA bin dir to system-wide $PATH.
   copy:
     dest: /etc/profile.d/java.sh
-    content: 'PATH=$PATH:$JAVA_HOME/bin'
+    content: 'export PATH=$PATH:$JAVA_HOME/bin'
 
 - name: Add HADOOP bin dir to system-wide $PATH.
   copy:
     dest: /etc/profile.d/hadoop.sh
-    content: 'PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin'
+    content: 'export PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin'
 
 - name: Create data dir
   file:
