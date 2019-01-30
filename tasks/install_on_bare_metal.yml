@@ -102,14 +102,20 @@
     - "export HDFS_SECONDARYNAMENODE_USER=root"
 
 - name: Add JAVA bin dir to system-wide $PATH.
-  copy:
-    dest: /etc/profile.d/java.sh
-    content: 'export PATH=$PATH:$JAVA_HOME/bin'
+  lineinfile:
+    dest: "{{ item }}"
+    line: 'export PATH=$PATH:$JAVA_HOME/bin'
+  with_items:
+    - "~/.profile"
+    - "~/.bashrc"
 
 - name: Add HADOOP bin dir to system-wide $PATH.
-  copy:
-    dest: /etc/profile.d/hadoop.sh
-    content: 'export PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin'
+  lineinfile:
+    dest: "{{ item }}"
+    line: 'export PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin'
+  with_items:
+    - "~/.profile"
+    - "~/.bashrc"
 
 - name: Create data dir
   file:
