@@ -24,7 +24,7 @@ hadoop_version: 3.2.0
 # A dictionary with a set of properties to set in the hdfs-site.xml
 hdfs_props: {
   # 'dfs.webhdfs.enabled': true
-  'dfs.replication': 0
+  'dfs.replication': 1
 }
 # A dictionary with a set of properties to set in the yarn-site.xml
 yarn_props: {}
