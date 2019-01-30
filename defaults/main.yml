@@ -1,3 +1,7 @@
+## Required variables
+# hadoop_master
+
+##
 # Targets: 
 #   - hdfs (implemented)
 #   - hdfsOnYARN
