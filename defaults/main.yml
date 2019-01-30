@@ -18,7 +18,6 @@ hadoop_mirrors: [
   "http://apache.rediris.es/hadoop/common",
   "http://apache.panu.it/hadoop/common",
   "http://apache.lauf-forum.at/hadoop/common",
-  "http://apache.mindstudios.com/hadoop/common",
   "http://www-eu.apache.org/dist/hadoop/common"
 ]
 # Hadoop version to install
