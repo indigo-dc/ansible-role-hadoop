@@ -5,14 +5,29 @@
   - no_master_keys == False
   - (hadoop_node_type == 'master') or (hadoop_node_type == 'namenode')
 
-- name: Start namenode daemon on master
-  command: "{{ hadoop_home }}/bin/hadoop-daemon.sh start namenode"
+- name: Check namenode daemon on master
+  command: "{{ hadoop_home }}/bin/hdfs --daemon status namenode"
+  register: namenode_check
+  ignore_errors: True
   when: 
-  - no_master_keys
-  - (hadoop_node_type == 'master') or (hadoop_node_type == 'namenode')
+    - no_master_keys
+    - (hadoop_node_type == 'master') or (hadoop_node_type == 'namenode')
+
+- name: Stop namenode daemon on master
+  command: "{{ hadoop_home }}/bin/hdfs --daemon stop namenode"
+  when: 
+    - no_master_keys
+    - (hadoop_node_type == 'master') or (hadoop_node_type == 'namenode')
+    - namenode_check is succeeded
+
+- name: Start namenode daemon on master
+  command: "{{ hadoop_home }}/bin/hdfs --daemon start namenode"
+  when: 
+    - no_master_keys
+    - (hadoop_node_type == 'master') or (hadoop_node_type == 'namenode')
 
 - name: Start datanode daemon on workers
-  command: "{{ hadoop_home }}/bin/hadoop-daemon.sh start datanode"
+  command: "{{ hadoop_home }}/bin/hdfs --daemon start datanode"
   when: 
-  - no_master_keys
-  - (hadoop_node_type == 'worker') or (hadoop_node_type == 'datanode')
+    - no_master_keys
+    - (hadoop_node_type == 'worker') or (hadoop_node_type == 'datanode')
