@@ -1,4 +1,11 @@
 ---
+- name: Check master keys
+  set_fact:
+    no_master_keys: false
+  when: 
+    - master_pub_key is not null
+    - master_priv_key is not null
+
 - name: Install hadoop components
   include: install_on_bare_metal.yml
 
