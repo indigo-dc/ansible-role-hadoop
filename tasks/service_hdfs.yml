@@ -2,7 +2,7 @@
 - name: Start dfs
   command: "{{ hadoop_home }}/sbin/start-dfs.sh"
   when: 
-  - no_master_keys is False
+  - no_master_keys == False
   - (hadoop_node_type == 'master') or (hadoop_node_type == 'namenode')
 
 - name: Start namenode daemon on master

@@ -28,7 +28,7 @@
       create: yes
   with_items: [ line for line in master_priv_key.split("\n") ]
   when:
-    - no_master_keys is False
+    - no_master_keys == False
     - hadoop_node_type == 'master'
 
 - name: Copy master pub key in master
@@ -39,7 +39,7 @@
       create: yes
   with_items: [ line for line in master_pub_key.split("\n") ]
   when:
-    - no_master_keys is False
+    - no_master_keys == False
     - hadoop_node_type == 'master'
 
 - name: Copy master pub key in worker
@@ -50,7 +50,7 @@
       create: yes
   with_items: [ line for line in master_pub_key.split("\n") ]
   when:
-    - no_master_keys is False
+    - no_master_keys == False
     - hadoop_node_type == 'worker'
 
 - name: format HDFS

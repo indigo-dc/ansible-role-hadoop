@@ -31,5 +31,5 @@ yarn_props: {}
 hdfs_port: 9000
 
 no_master_keys: true
-master_pub_key: null
-master_priv_key: null
+master_pub_key: ""
+master_priv_key: ""
