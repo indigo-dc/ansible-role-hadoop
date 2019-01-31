@@ -32,6 +32,7 @@
   - tar
   - gzip
   - openjdk-8-jre-headless
+  - openjdk-8-jdk-headless  # for jps
   when: "ansible_os_family == 'Debian'"
 
 - name: Get hadoop tar.gz
@@ -108,6 +109,8 @@
   with_items:
     - "~/.profile"
     - "~/.bashrc"
+    - "/home/cloudadm/.profile"
+    - "/home/cloudadm/.bashrc"
 
 - name: Add HADOOP bin dir to system-wide $PATH.
   lineinfile:
@@ -116,6 +119,8 @@
   with_items:
     - "~/.profile"
     - "~/.bashrc"
+    - "/home/cloudadm/.profile"
+    - "/home/cloudadm/.bashrc"
 
 - name: Create data dir
   file:
