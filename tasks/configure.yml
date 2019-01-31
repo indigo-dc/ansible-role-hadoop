@@ -47,6 +47,6 @@
    - restart hadoop-datanode
    - restart yarn-nodemanager
 
-- name: Run hdfs
+- name: Format hdfs namenode
   command: "{{ hadoop_home }}/bin/hdfs namenode -format creates=/tmp/hadoop-root/dfs/name"
   when: (hadoop_node_type == 'master') or (hadoop_node_type == 'namenode')

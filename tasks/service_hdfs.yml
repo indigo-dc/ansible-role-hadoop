@@ -1,0 +1,25 @@
+---
+- name: Check master keys
+  set_fact:
+    no_master_keys: false
+  when: 
+    - master_pub_key is not null
+    - master_priv_key is not null
+
+- name: Start dfs
+  command: "{{ hadoop_home }}/sbin/start-dfs.sh"
+  when: 
+  - no_master_keys is False
+  - (hadoop_node_type == 'master') or (hadoop_node_type == 'namenode')
+
+- name: Start namenode daemon on master
+  command: "{{ hadoop_home }}/bin/hadoop-daemon.sh start namenode"
+  when: 
+  - no_master_keys
+  - (hadoop_node_type == 'master') or (hadoop_node_type == 'namenode')
+
+- name: Start datanode daemon on workers
+  command: "{{ hadoop_home }}/bin/hadoop-daemon.sh start datanode"
+  when: 
+  - no_master_keys
+  - (hadoop_node_type == 'worker') or (hadoop_node_type == 'datanode')

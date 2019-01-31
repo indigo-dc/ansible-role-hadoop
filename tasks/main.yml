@@ -4,3 +4,6 @@
 
 - name: Configure hadoop common components
   include: configure_common.yml
+
+- name: Start hdfs components
+  include: service_hdfs.yml
