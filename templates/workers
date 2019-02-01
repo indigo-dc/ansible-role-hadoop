@@ -1,5 +1,4 @@
-{% for host in groups['all'] %}
-{% if hostvars[host]['ansible_hostname'] != hadoop_master %}
-{{ hostvars[host]['ansible_hostname'] }}
+{% for host_ip in worker_ips %}
+{{ host_ip }}
 {% endif %}
 {% endfor %}
