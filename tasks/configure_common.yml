@@ -26,7 +26,7 @@
       line: "{{ item }}"
       mode: 0600
       create: yes
-  with_items: [ line for line in master_priv_key.split("\n") ]
+  with_items: '{{ master_priv_key.split("\n") }}'
   when:
     - no_master_keys == False
     - hadoop_node_type == 'master'
@@ -37,7 +37,7 @@
       line: "{{ item }}"
       mode: 0644
       create: yes
-  with_items: [ line for line in master_pub_key.split("\n") ]
+  with_items: '{{ master_pub_key.split("\n") }}'
   when:
     - no_master_keys == False
     - hadoop_node_type == 'master'
@@ -48,10 +48,11 @@
       line: "{{ item }}"
       mode: 0600
       create: yes
-  with_items: [ line for line in master_pub_key.split("\n") ]
+  with_items: '{{ master_pub_key.split("\n") }}'
   when:
     - no_master_keys == False
     - hadoop_node_type == 'worker'
+
 
 - name: format HDFS
   command: "{{ hadoop_home }}/bin/hdfs namenode -format"
