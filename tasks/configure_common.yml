@@ -23,7 +23,7 @@
 - name: Copy master priv key in master
   lineinfile:
       dest: "~/.ssh/id_rsa"
-      line: "{{ item }}"
+      line: "{{ item }}\n"
       mode: 0600
       create: yes
   with_items: '{{ master_priv_key.split("\n") }}'
@@ -34,7 +34,7 @@
 - name: Copy master pub key in master
   lineinfile:
       dest: "~/.ssh/id_rsa.pub"
-      line: "{{ item }}"
+      line: "{{ item }}\n"
       mode: 0644
       create: yes
   with_items: '{{ master_pub_key.split("\n") }}'
@@ -45,7 +45,7 @@
 - name: Copy master pub key in worker
   lineinfile:
       dest: "~/.ssh/authorized_keys"
-      line: "{{ item }}"
+      line: "{{ item }}\n"
       mode: 0600
       create: yes
   with_items: '{{ master_pub_key.split("\n") }}'
