@@ -1,4 +1,3 @@
 {% for host_ip in worker_ips %}
 {{ host_ip }}
-{% endif %}
 {% endfor %}
