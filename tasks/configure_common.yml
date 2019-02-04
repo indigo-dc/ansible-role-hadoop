@@ -75,8 +75,6 @@
     mode: 0600
   when:
     - master_key == True
-    - hadoop_node_type == 'worker'
-
 
 - name: format HDFS
   command: "{{ hadoop_home }}/bin/hdfs namenode -format"

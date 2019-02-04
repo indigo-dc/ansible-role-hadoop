@@ -1,4 +1,6 @@
 ---
+################################################################################
+# Master HDFS
 - name: Check namenode daemon on master
   command: "{{ hadoop_home }}/bin/hdfs --daemon status namenode"
   register: namenode_check
@@ -17,24 +19,67 @@
   when: 
     - (hadoop_node_type == 'master') or (hadoop_node_type == 'namenode')
 
+- name: Check secondarynamenode daemon on master
+  command: "{{ hadoop_home }}/bin/hdfs --daemon status secondarynamenode"
+  register: secondarynamenode_check
+  ignore_errors: True
+  when: 
+    - (hadoop_node_type == 'master') or (hadoop_node_type == 'secondarynamenode')
+
+- name: Stop secondarynamenode daemon on master
+  command: "{{ hadoop_home }}/bin/hdfs --daemon stop secondarynamenode"
+  when: 
+    - (hadoop_node_type == 'master') or (hadoop_node_type == 'secondarynamenode')
+    - secondarynamenode_check is succeeded
+
+- name: Start secondarynamenode daemon on master
+  command: "{{ hadoop_home }}/bin/hdfs --daemon start secondarynamenode"
+  when: 
+    - (hadoop_node_type == 'master') or (hadoop_node_type == 'secondarynamenode')
+
+################################################################################
+# Master YARN
+- name: Check resourcemanager daemon on master
+  command: "{{ hadoop_home }}/bin/yarn --daemon status resourcemanager"
+  register: resourcemanager_check
+  ignore_errors: True
+  when: 
+    - (hadoop_node_type == 'master') or (hadoop_node_type == 'resourcemanager')
+    - yarn == True
+
 - name: Stop resourcemanager daemon on master
-  command: "{{ hadoop_home }}/bin/hdfs --daemon stop resourcemanager"
+  command: "{{ hadoop_home }}/bin/yarn --daemon stop resourcemanager"
   when: 
     - (hadoop_node_type == 'master') or (hadoop_node_type == 'resourcemanager')
     - resourcemanager_check is succeeded
     - yarn == True
 
-- name: Start namenode daemon on master
-  command: "{{ hadoop_home }}/bin/hdfs --daemon start namenode"
+- name: Start resourcemanager daemon on master
+  command: "{{ hadoop_home }}/bin/yarn --daemon start resourcemanager"
   when: 
-    - (hadoop_node_type == 'master') or (hadoop_node_type == 'namenode')
-
-- name: Start nodemanager daemon on workers
-  command: "{{ hadoop_home }}/bin/hdfs --daemon start nodemanager"
-  when: 
-    - (hadoop_node_type == 'worker') or (hadoop_node_type == 'datanode')
+    - (hadoop_node_type == 'master') or (hadoop_node_type == 'resourcemanager')
     - yarn == True
 
+################################################################################
+# Worker HDFS
+- name: Start datanode daemon on workers
+  command: "{{ hadoop_home }}/bin/hdfs --daemon start datanode"
+  when: 
+    - (hadoop_node_type == 'worker') or (hadoop_node_type == 'datanode')
+
+################################################################################
+# Worker YARN
+- name: Start nodemanager daemon on workers
+  command: "{{ hadoop_home }}/bin/yarn --daemon start nodemanager"
+  when: 
+    - (hadoop_node_type == 'worker') or (hadoop_node_type == 'nodemanager')
+    - yarn == True
+
+################################################################################
+# Start services from master
+
+##
+# HDFS
 # If datanode are already running it will restart the datanodes, otherwise
 # they will be started for the first time
 - name: Start dfs
@@ -43,9 +88,11 @@
   - master_key == True
   - (hadoop_node_type == 'master') or (hadoop_node_type == 'namenode')
 
+##
+# YARN
 # If nodemanager are already running it will restart the nodemanagers, otherwise
 # they will be started for the first time
-- name: Start dfs
+- name: Start yarn
   command: "{{ hadoop_home }}/sbin/start-yarn.sh"
   when: 
   - master_key == True
