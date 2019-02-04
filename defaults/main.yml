@@ -44,6 +44,11 @@ mapred_props: {
 
 hdfs_port: 9000
 
+core_props: {
+  'hadoop.proxyuser.root.hosts': "httpfs-host.foo.com",
+  'hadoop.proxyuser.root.groups': "*"
+}
+
 master_key: false
 master_pub_key: ""
 master_priv_key: ""
@@ -51,3 +56,5 @@ worker_ips: []
 
 yarn: false
 yarn_mapred_port: 54311
+
+httpfs: false

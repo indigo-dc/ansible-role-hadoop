@@ -1,0 +1,40 @@
+---
+################################################################################
+# Master YARN
+- name: Check resourcemanager daemon on master
+  command: "{{ hadoop_home }}/bin/yarn --daemon status resourcemanager"
+  register: resourcemanager_check
+  ignore_errors: True
+  when: 
+    - (hadoop_node_type == 'master') or (hadoop_node_type == 'resourcemanager')
+
+- name: Stop resourcemanager daemon on master
+  command: "{{ hadoop_home }}/bin/yarn --daemon stop resourcemanager"
+  when: 
+    - (hadoop_node_type == 'master') or (hadoop_node_type == 'resourcemanager')
+    - resourcemanager_check is succeeded
+
+- name: Start resourcemanager daemon on master
+  command: "{{ hadoop_home }}/bin/yarn --daemon start resourcemanager"
+  when: 
+    - (hadoop_node_type == 'master') or (hadoop_node_type == 'resourcemanager')
+
+################################################################################
+# Worker YARN
+- name: Start nodemanager daemon on workers
+  command: "{{ hadoop_home }}/bin/yarn --daemon start nodemanager"
+  when: 
+    - (hadoop_node_type == 'worker') or (hadoop_node_type == 'nodemanager')
+
+################################################################################
+# Start services from master
+
+##
+# YARN
+# If nodemanager are already running it will restart the nodemanagers, otherwise
+# they will be started for the first time
+- name: Start yarn
+  command: "{{ hadoop_home }}/sbin/start-yarn.sh"
+  when: 
+  - master_key == True
+  - (hadoop_node_type == 'master') or (hadoop_node_type == 'resourcemanager')

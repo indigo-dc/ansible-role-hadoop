@@ -1,0 +1,7 @@
+---
+################################################################################
+# Master HTTPFS
+- name: Start httpfs daemon on master
+  command: "{{ hadoop_home }}/bin/hdfs --daemon start httpfs"
+  when: 
+    - (hadoop_node_type == 'master')

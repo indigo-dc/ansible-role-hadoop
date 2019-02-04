@@ -13,3 +13,13 @@
 
 - name: Start hdfs components
   include: service_hdfs.yml
+
+- name: Start yarn components
+  include: service_yarn.yml
+  when:
+    - yarn == True
+
+- name: Start yarn components
+  include: service_httpfs.yml
+  when:
+    - httpfs == True
