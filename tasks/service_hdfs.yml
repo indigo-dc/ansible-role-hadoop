@@ -10,13 +10,16 @@
 
 - name: Stop namenode daemon on master
   command: "{{ hadoop_home }}/bin/hdfs --daemon stop namenode"
+  egister: namenode_stop
   when: 
     - (hadoop_node_type == 'master') or (hadoop_node_type == 'namenode')
     - namenode_check is succeeded
 
 - name: format HDFS
   command: "{{ hadoop_home }}/bin/hdfs namenode -format -force"
-  when: (hadoop_node_type == 'master' and hadoop_node_role == 'all') or (hadoop_node_type == 'master' and hadoop_node_role == 'namenode')
+  when: 
+    - (hadoop_node_type == 'master' and hadoop_node_role == 'all') or (hadoop_node_type == 'master' and hadoop_node_role == 'namenode')
+    - namenode_stop is succeeded
 
 - name: Start namenode daemon on master
   command: "{{ hadoop_home }}/bin/hdfs --daemon start namenode"
