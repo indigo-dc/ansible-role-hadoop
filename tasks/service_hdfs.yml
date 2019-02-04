@@ -15,7 +15,7 @@
     - namenode_check is succeeded
 
 - name: format HDFS
-  command: "{{ hadoop_home }}/bin/hdfs namenode -format"
+  command: "{{ hadoop_home }}/bin/hdfs namenode -format -force"
   when: (hadoop_node_type == 'master' and hadoop_node_role == 'all') or (hadoop_node_type == 'master' and hadoop_node_role == 'namenode')
 
 - name: Start namenode daemon on master
