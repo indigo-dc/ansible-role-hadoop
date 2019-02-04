@@ -30,7 +30,7 @@ hdfs_props: {
 yarn_props: {}
 hdfs_port: 9000
 
-no_master_keys: true
+master_key: false
 master_pub_key: ""
 master_priv_key: ""
 worker_ips: []

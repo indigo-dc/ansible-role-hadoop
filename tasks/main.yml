@@ -1,7 +1,7 @@
 ---
 - name: Check master keys
   set_fact:
-    no_master_keys: false
+    master_key: true
   when: 
     - master_pub_key != "" or master_priv_key != ""
 

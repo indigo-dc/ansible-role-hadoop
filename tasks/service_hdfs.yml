@@ -1,10 +1,4 @@
 ---
-- name: Start dfs
-  command: "{{ hadoop_home }}/sbin/start-dfs.sh"
-  when: 
-  - no_master_keys == False
-  - (hadoop_node_type == 'master') or (hadoop_node_type == 'namenode')
-
 - name: Check namenode daemon on master
   command: "{{ hadoop_home }}/bin/hdfs --daemon status namenode"
   register: namenode_check
@@ -26,5 +20,12 @@
 - name: Start datanode daemon on workers
   command: "{{ hadoop_home }}/bin/hdfs --daemon start datanode"
   when: 
-    - no_master_keys
     - (hadoop_node_type == 'worker') or (hadoop_node_type == 'datanode')
+
+# If datanode are already running it will restart the datanodes, otherwise
+# they will be started for the first time
+- name: Start dfs
+  command: "{{ hadoop_home }}/sbin/start-dfs.sh"
+  when: 
+  - master_key == True
+  - (hadoop_node_type == 'master') or (hadoop_node_type == 'namenode')

@@ -28,13 +28,13 @@
     group: root
     mode: 0600
   when:
-    - no_master_keys == False
+    - master_key == True
     - hadoop_node_type == 'master'
 
 - name: Fix master priv key
   script: "tasks/scripts/fix_key.py ~/.ssh/id_rsa"
   when:
-    - no_master_keys == False
+    - master_key == True
     - hadoop_node_type == 'master'
 
 - name: Copy master pub key in master
@@ -45,7 +45,7 @@
     group: root
     mode: 0644
   when:
-    - no_master_keys == False
+    - master_key == True
     - hadoop_node_type == 'master'
 
 - name: Copy master pub key in worker
@@ -56,7 +56,7 @@
     group: root
     mode: 0600
   when:
-    - no_master_keys == False
+    - master_key == True
     - hadoop_node_type == 'worker'
 
 
