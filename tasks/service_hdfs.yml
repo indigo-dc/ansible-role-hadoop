@@ -10,20 +10,17 @@
   register: namenode_check
   ignore_errors: True
   when: 
-    - no_master_keys
     - (hadoop_node_type == 'master') or (hadoop_node_type == 'namenode')
 
 - name: Stop namenode daemon on master
   command: "{{ hadoop_home }}/bin/hdfs --daemon stop namenode"
   when: 
-    - no_master_keys
     - (hadoop_node_type == 'master') or (hadoop_node_type == 'namenode')
     - namenode_check is succeeded
 
 - name: Start namenode daemon on master
   command: "{{ hadoop_home }}/bin/hdfs --daemon start namenode"
   when: 
-    - no_master_keys
     - (hadoop_node_type == 'master') or (hadoop_node_type == 'namenode')
 
 - name: Start datanode daemon on workers
