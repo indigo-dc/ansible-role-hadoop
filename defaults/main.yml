@@ -27,10 +27,27 @@ hdfs_props: {
   'dfs.replication': 1
 }
 # A dictionary with a set of properties to set in the yarn-site.xml
-yarn_props: {}
+yarn_props: {
+  'yarn.acl.enable': 0,
+  'yarn.nodemanager.aux-services': "mapreduce_shuffle",
+  'yarn.nodemanager.resource.memory-mb': 1536,
+  'yarn.scheduler.maximum-allocation-mb': 1536,
+  'yarn.scheduler.minimum-allocation-mb': 128,
+  'yarn.nodemanager.vmem-check-enabled': false
+}
+
+mapred_props: {
+  'yarn.app.mapreduce.am.resource.mb': 512,
+  'mapreduce.map.memory.mb': 256,
+  'mapreduce.reduce.memory.mb': 256
+}
+
 hdfs_port: 9000
 
 master_key: false
 master_pub_key: ""
 master_priv_key: ""
 worker_ips: []
+
+yarn: false
+yarn_mapred_port: 54311

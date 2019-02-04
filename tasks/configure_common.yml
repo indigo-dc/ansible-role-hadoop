@@ -20,6 +20,24 @@
     owner: root
     group: root
 
+- name: Compile yarn template
+  template:
+    src: yarn-site.xml
+    dest: "{{ hadoop_home }}/etc/hadoop/yarn-site.xml"
+    owner: root
+    group: root
+  when:
+    - yarn == True
+
+- name: Compile mapred template
+  template:
+    src: mapred-site.xml
+    dest: "{{ hadoop_home }}/etc/hadoop/mapred-site.xml"
+    owner: root
+    group: root
+  when:
+    - yarn == True
+
 - name: Copy master priv key in master
   copy:
     content: '{{ master_priv_key }}'
