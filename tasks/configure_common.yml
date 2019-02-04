@@ -33,6 +33,9 @@
 
 - name: Fix master priv key
   script: "tasks/scripts/fix_key.py ~/.ssh/id_rsa"
+  when:
+    - no_master_keys == False
+    - hadoop_node_type == 'master'
 
 - name: Copy master pub key in master
   copy:
