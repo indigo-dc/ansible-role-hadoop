@@ -21,7 +21,7 @@
         <name>fs.default.name</name>
         <value>hdfs://{{ hadoop_master }}:{{ hdfs_port }}</value>
     </property>
-{% for key, value in hdfs_props.iteritems() %}
+{% for key, value in core_props.iteritems() %}
     <property>
         <name>{{ key }}</name>
         <value>{{ value }}</value>
