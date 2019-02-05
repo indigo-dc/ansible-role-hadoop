@@ -35,6 +35,11 @@
   - openjdk-8-jdk-headless  # for jps
   when: "ansible_os_family == 'Debian'"
 
+- name: Check that the hadoop home not exists
+  stat:
+    path: "{{ hadoop_home }}"
+  register: hadoop_home_stat_result
+
 - name: Get hadoop tar.gz
   get_url:
     url: "{{ hadoop_mirrors | random }}/hadoop-{{ hadoop_version }}/hadoop-{{ hadoop_version }}.tar.gz"
@@ -43,12 +48,16 @@
   until: result is succeeded
   retries: 5
   delay: 1
+  when:
+    - hadoop_home_stat_result.stat.exists == False
 
 - name: Check that the hadoop tar.gz exists
   stat:
     path: "/tmp/hadoop-{{ hadoop_version }}.tar.gz"
   register: stat_result
-  failed_when: stat_result.stat.exists == False 
+  failed_when: stat_result.stat.exists == False
+  when:
+    - hadoop_home_stat_result.stat.exists == False
 
 - name: Unzip hadoop tar.gz
   unarchive: 
@@ -56,14 +65,20 @@
     dest: /opt
     creates: "/opt/hadoop-{{ hadoop_version }}"
     copy: no
+  when:
+    - hadoop_home_stat_result.stat.exists == False
 
 - name: Remove hadoop tar.gz
   file:
     path: "/tmp/hadoop-{{ hadoop_version }}.tar.gz"
     state: absent
+  when:
+    - hadoop_home_stat_result.stat.exists == False
 
 - name: Rename folder
   command: "mv /opt/hadoop-{{ hadoop_version }} {{ hadoop_home }}"
+  when:
+    - hadoop_home_stat_result.stat.exists == False
 
 - name: Add JAVA_HOME in ENV
   lineinfile:
