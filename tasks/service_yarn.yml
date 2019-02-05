@@ -35,6 +35,15 @@
 # they will be started for the first time
 - name: Start yarn
   command: "{{ hadoop_home }}/sbin/start-yarn.sh"
+  register: start_yarn_check
+  ignore_errors: True
   when: 
+  - master_key == True
+  - (hadoop_node_type == 'master') or (hadoop_node_type == 'resourcemanager')
+
+- name: Restart yarn in case nodemanagers are already started
+  command: "{{ hadoop_home }}/sbin/stop-yarn.sh && {{ hadoop_home }}/sbin/start-yarn.sh"
+  when:
+  - start_yarn_check is succeeded
   - master_key == True
   - (hadoop_node_type == 'master') or (hadoop_node_type == 'resourcemanager')
