@@ -10,7 +10,7 @@
 
 - name: Stop namenode daemon on master
   command: "{{ hadoop_home }}/bin/hdfs --daemon stop namenode"
-  egister: namenode_stop
+  register: namenode_stop
   when: 
     - (hadoop_node_type == 'master') or (hadoop_node_type == 'namenode')
     - namenode_check is succeeded
@@ -61,5 +61,5 @@
 - name: Start dfs
   command: "{{ hadoop_home }}/sbin/start-dfs.sh"
   when: 
-  - master_key == True
-  - (hadoop_node_type == 'master') or (hadoop_node_type == 'namenode')
+    - master_key == True
+    - (hadoop_node_type == 'master') or (hadoop_node_type == 'namenode')
