@@ -45,7 +45,7 @@ mapred_props: {
 hdfs_port: 9000
 
 core_props: {
-  'hadoop.proxyuser.root.hosts': "httpfs-host.foo.com",
+  'hadoop.proxyuser.root.hosts': "*",
   'hadoop.proxyuser.root.groups': "*"
 }
 
