@@ -31,7 +31,7 @@
   when:
     - hadoop_2
     - (hadoop_node_type == 'master') or (hadoop_node_type == 'namenode')
-    - namenode_check is fail
+    - namenode_check is failed
 
 - name: format HDFS
   command: "{{ hadoop_home }}/bin/hdfs namenode -format -force"
@@ -85,7 +85,7 @@
   when:
     - hadoop_2
     - (hadoop_node_type == 'master') or (hadoop_node_type == 'secondarynamenode')
-    - secondarynamenode_check is fail
+    - secondarynamenode_check is failed
 
 - name: "HADOOP 2 @ Start secondarynamenode daemon on master"
   command: "{{ hadoop_home }}/sbin/hadoop-daemon.sh start secondarynamenode"
