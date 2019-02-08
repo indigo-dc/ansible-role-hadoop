@@ -17,7 +17,7 @@
     - (hadoop_node_type == 'master') or (hadoop_node_type == 'namenode')
     - namenode_check is succeeded
 
-- name: "[hadoop 2] Check namenode daemon on master"
+- name: "HADOOP 2 @ Check namenode daemon on master"
   command: "{{ hadoop_home }}/sbin/hadoop-daemon.sh start namenode"
   register: namenode_check
   ignore_errors: True
@@ -25,13 +25,13 @@
     - hadoop_2
     - (hadoop_node_type == 'master') or (hadoop_node_type == 'namenode')
 
-- name: "[hadoop 2] Stop namenode daemon on master"
+- name: "HADOOP 2 @ Stop namenode daemon on master"
   command: "{{ hadoop_home }}/sbin/hadoop-daemon.sh stop namenode"
   register: namenode_stop
   when:
     - hadoop_2
     - (hadoop_node_type == 'master') or (hadoop_node_type == 'namenode')
-    - namenode_check is succeeded
+    - namenode_check is fail
 
 - name: format HDFS
   command: "{{ hadoop_home }}/bin/hdfs namenode -format -force"
@@ -45,7 +45,7 @@
     - not hadoop_2
     - (hadoop_node_type == 'master') or (hadoop_node_type == 'namenode')
 
-- name: "[hadoop 2] Start namenode daemon on master"
+- name: "HADOOP 2 @ Start namenode daemon on master"
   command: "{{ hadoop_home }}/sbin/hadoop-daemon.sh start namenode"
   when: 
     - hadoop_2
@@ -72,7 +72,7 @@
     - not hadoop_2
     - (hadoop_node_type == 'master') or (hadoop_node_type == 'secondarynamenode')
 
-- name: "[hadoop 2] Check secondarynamenode daemon on master"
+- name: "HADOOP 2 @ Check secondarynamenode daemon on master"
   command: "{{ hadoop_home }}/sbin/hadoop-daemon.sh start secondarynamenode"
   register: secondarynamenode_check
   ignore_errors: True
@@ -80,14 +80,14 @@
     - hadoop_2
     - (hadoop_node_type == 'master') or (hadoop_node_type == 'secondarynamenode')
 
-- name: "[hadoop 2] Stop secondarynamenode daemon on master"
+- name: "HADOOP 2 @ Stop secondarynamenode daemon on master"
   command: "{{ hadoop_home }}/sbin/hadoop-daemon.sh stop secondarynamenode"
   when:
     - hadoop_2
     - (hadoop_node_type == 'master') or (hadoop_node_type == 'secondarynamenode')
-    - secondarynamenode_check is succeeded
+    - secondarynamenode_check is fail
 
-- name: "[hadoop 2] Start secondarynamenode daemon on master"
+- name: "HADOOP 2 @ Start secondarynamenode daemon on master"
   command: "{{ hadoop_home }}/sbin/hadoop-daemon.sh start secondarynamenode"
   when:
     - hadoop_2
@@ -101,7 +101,7 @@
     - not hadoop_2
     - (hadoop_node_type == 'worker') or (hadoop_node_type == 'datanode')
 
-- name: "[hadoop 2] Start datanode daemon on workers"
+- name: "HADOOP 2 @ Start datanode daemon on workers"
   command: "{{ hadoop_home }}/sbin/hadoop-daemon.sh start datanode"
   when:
     - hadoop_2
