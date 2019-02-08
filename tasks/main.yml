@@ -5,6 +5,12 @@
   when: 
     - master_pub_key != "" or master_priv_key != ""
 
+- name: Check hadoop version
+  set_fact:
+    hadoop_2: true
+  when: 
+    - hadoop_version.split('.')[0] == "2"
+
 - name: Install hadoop components
   include: install_on_bare_metal.yml
 
