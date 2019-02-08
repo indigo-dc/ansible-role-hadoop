@@ -97,12 +97,14 @@
 # Worker HDFS
 - name: Start datanode daemon on workers
   command: "{{ hadoop_home }}/bin/hdfs --daemon start datanode"
+  ignore_errors: True
   when:
     - not hadoop_2
     - (hadoop_node_type == 'worker') or (hadoop_node_type == 'datanode')
 
 - name: "HADOOP 2 @ Start datanode daemon on workers"
   command: "{{ hadoop_home }}/sbin/hadoop-daemon.sh start datanode"
+  ignore_errors: True
   when:
     - hadoop_2
     - (hadoop_node_type == 'worker') or (hadoop_node_type == 'datanode')
@@ -110,7 +112,6 @@
 
 ################################################################################
 # Start services from master
-
 ##
 # HDFS
 # If datanode are already running it will restart the datanodes, otherwise
