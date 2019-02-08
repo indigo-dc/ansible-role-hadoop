@@ -97,14 +97,14 @@
 # Worker HDFS
 - name: Start datanode daemon on workers
   command: "{{ hadoop_home }}/bin/hdfs --daemon start datanode"
-  ignore_errors: True
+  ignore_errors: True  # Master could have already started the deamon
   when:
     - not hadoop_2
     - (hadoop_node_type == 'worker') or (hadoop_node_type == 'datanode')
 
 - name: "HADOOP 2 @ Start datanode daemon on workers"
   command: "{{ hadoop_home }}/sbin/hadoop-daemon.sh start datanode"
-  ignore_errors: True
+  ignore_errors: True  # Master could have already started the deamon
   when:
     - hadoop_2
     - (hadoop_node_type == 'worker') or (hadoop_node_type == 'datanode')
