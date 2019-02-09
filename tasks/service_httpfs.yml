@@ -7,6 +7,6 @@
     - not hadoop_2
 
 - name: "HADOOP 2 @ Start httpfs daemon on master"
-  command: "{{ hadoop_home }}/sbin/hadoop-daemon.sh start httpfs"
+  command: "{{ hadoop_home }}/sbin/httpfs.sh start"
   when:
     - hadoop_2
