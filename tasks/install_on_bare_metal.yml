@@ -111,6 +111,7 @@
 - name: Add HDFS user root in hadoop ENV
   blockinfile: 
     dest: "{{ hadoop_home }}/etc/hadoop/hadoop-env.sh"
+    mark: "{mark} HDFS USERS"
     block: |
       export HDFS_NAMENODE_USER=root
       export HDFS_DATANODE_USER=root
@@ -119,15 +120,17 @@
 - name: Add YARN user root in hadoop ENV
   blockinfile: 
     dest: "{{ hadoop_home }}/etc/hadoop/hadoop-env.sh"
+    mark: "{mark} YARN USERS"
     block: |
       export YARN_RESOURCEMANAGER_USER=root
       export YARN_NODEMANAGER_USER=root
   when:
     - yarn == True
 
-- name: Add HDFS user root in hadoop ENV
+- name: Add HTTPFS ENV
   blockinfile: 
     dest: "{{ hadoop_home }}/etc/hadoop/httpfs-env.sh"
+    mark: "{mark} HTTPFS VARS"
     block: |
       export HTTPFS_HTTP_PORT=13999
       export HTTPFS_ADMIN_PORT=14002
