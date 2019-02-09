@@ -31,7 +31,7 @@
     - (hadoop_node_type == 'master') or (hadoop_node_type == 'resourcemanager')
 
 - name: "HADOOP 2 @ Stop resourcemanager daemon on master"
-  command: "{{ hadoop_home }}/sbin/yarn-daemon.sh start resourcemanager"
+  command: "{{ hadoop_home }}/sbin/yarn-daemon.sh stop resourcemanager"
   when:
     - hadoop_2
     - (hadoop_node_type == 'master') or (hadoop_node_type == 'resourcemanager')
