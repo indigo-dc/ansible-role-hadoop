@@ -27,8 +27,8 @@
 - name: Set service user and password
   htpasswd:
     path: /etc/nginx/passwdfile_httpfs
-    name: "{{https_user}}"
-    password: '{{http_password}}'
+    name: "{{httpfs_user}}"
+    password: '{{httpfs_password}}'
 
 - name: Copy httpfs proxy pass content
   copy:
