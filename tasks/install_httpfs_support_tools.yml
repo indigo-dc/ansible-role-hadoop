@@ -1,0 +1,68 @@
+---
+- name: DEBIAN - Update repositories cache and install "nginx" package
+  apt:
+    name: "{{item}}"
+    update_cache: yes
+    autoclean: yes
+    autoremove: yes
+  with_items:
+    - nginx
+    - apache2-utils
+    - python-passlib
+  when: ansible_os_family == "Debian"
+
+- name: Create folder for nginx certificates
+  file:
+    path: /etc/nginx/ssl
+    state: directory
+
+- name: Generate certificate
+  command: openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt -subj "/C=IT/ST=Italy/L=Perugia/O=Global Security/OU=ITDepartment/CN=test.test"
+
+- name: Create httpfs proxy pass in nginx configuration
+  file:
+    path: "/etc/nginx/sites-available/httpfs"
+    state: touch
+
+- name: Set service user and password
+  htpasswd:
+    path: /etc/nginx/passwdfile_httpfs
+    name: "{{https_user}}"
+    password: '{{http_password}}'
+
+- name: Copy httpfs proxy pass content
+  copy:
+    dest: "/etc/nginx/sites-available/httpfs"
+    content: |
+        server {
+          listen 14000 ssl;
+          listen [::]:14000 ssl;
+
+          auth_basic  "HTTPFS area";
+          auth_basic_user_file /etc/nginx/passwdfile_httpfs; 
+
+          ssl_certificate /etc/nginx/ssl/nginx.crt;
+          ssl_certificate_key /etc/nginx/ssl/nginx.key;
+
+          location / {
+              proxy_pass http://localhost:13999;
+              proxy_http_version 1.1;
+              proxy_redirect off;
+              proxy_set_header Upgrade $http_upgrade;
+              proxy_set_header Connection 'upgrade';
+              proxy_set_header Host $host;
+              proxy_cache_bypass $http_upgrade;
+          }
+        }
+
+- name: Link httpfs proxy pass
+  file:
+    src: /etc/nginx/sites-available/httpfs
+    dest: /etc/nginx/sites-enabled/httpfs
+    state: link
+
+- name: Start nginx and enable it at startup
+  service:
+    name: nginx
+    state: restarted
+    enabled: yes

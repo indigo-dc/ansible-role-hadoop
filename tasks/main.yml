@@ -21,6 +21,12 @@
 - name: Install hadoop components
   include: install_on_bare_metal.yml
 
+- name: Install httpfs support tools
+  include: install_httpfs_support_tools.yml
+  when:
+    - httpfs == True
+    - hadoop_node_type == 'master'
+
 - name: Configure hadoop common components
   include: configure_common.yml
 
@@ -32,7 +38,8 @@
   when:
     - yarn == True
 
-- name: Start yarn components
+- name: Start httpfs components
   include: service_httpfs.yml
   when:
     - httpfs == True
+    - hadoop_node_type == 'master'
