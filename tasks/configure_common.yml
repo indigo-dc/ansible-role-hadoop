@@ -15,10 +15,21 @@
 
 - name: Compile workers template
   template:
-    src: workers
+    src: slaves_and_workers
     dest: "{{ hadoop_home }}/etc/hadoop/workers"
     owner: root
     group: root
+  when:
+    - not hadoop_2
+
+- name: Compile slave template
+  template:
+    src: slaves_and_workers
+    dest: "{{ hadoop_home }}/etc/hadoop/slaves"
+    owner: root
+    group: root
+  when:
+    - hadoop_2
 
 - name: Compile yarn template
   template:
