@@ -59,3 +59,5 @@ yarn: false
 yarn_mapred_port: 54311
 
 httpfs: false
+httpfs_user: null
+httpfs_password: null

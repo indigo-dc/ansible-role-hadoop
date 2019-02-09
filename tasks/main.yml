@@ -11,6 +11,13 @@
   when:
     - hadoop_version.split('.')[0] == "2"
 
+- name: Check httpfs user and password
+  fail:
+    msg: "You have to specify user and password for httpfs service"
+  when:
+    - httpfs
+    - httpfs_user == None or httpfs_password == None
+
 - name: Install hadoop components
   include: install_on_bare_metal.yml
 

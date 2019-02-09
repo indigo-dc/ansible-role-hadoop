@@ -125,6 +125,16 @@
   when:
     - yarn == True
 
+- name: Add HDFS user root in hadoop ENV
+  blockinfile: 
+    dest: "{{ hadoop_home }}/etc/hadoop/hadoop-env.sh"
+    block: |
+      export HTTPFS_HTTP_PORT=13999
+      export HTTPFS_ADMIN_PORT=14002
+      export HTTPFS_LOG=/var/log/httpfs.log
+  when:
+    - httpfs == True
+
 - name: Add JAVA bin dir to system-wide $PATH.
   lineinfile:
     dest: "{{ item }}"
