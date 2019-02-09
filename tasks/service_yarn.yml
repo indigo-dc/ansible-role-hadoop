@@ -5,26 +5,58 @@
   command: "{{ hadoop_home }}/bin/yarn --daemon status resourcemanager"
   register: resourcemanager_check
   ignore_errors: True
-  when: 
+  when:
+    - not hadoop_2
     - (hadoop_node_type == 'master') or (hadoop_node_type == 'resourcemanager')
 
 - name: Stop resourcemanager daemon on master
   command: "{{ hadoop_home }}/bin/yarn --daemon stop resourcemanager"
-  when: 
+  when:
+    - not hadoop_2
     - (hadoop_node_type == 'master') or (hadoop_node_type == 'resourcemanager')
     - resourcemanager_check is succeeded
 
 - name: Start resourcemanager daemon on master
   command: "{{ hadoop_home }}/bin/yarn --daemon start resourcemanager"
-  when: 
+  when:
+    - not hadoop_2
+    - (hadoop_node_type == 'master') or (hadoop_node_type == 'resourcemanager')
+
+- name: "HADOOP 2 @ Check resourcemanager daemon on master"
+  command: "{{ hadoop_home }}/sbin/yarn-daemon.sh start resourcemanager"
+  register: resourcemanager_check
+  ignore_errors: True
+  when:
+    - hadoop_2
+    - (hadoop_node_type == 'master') or (hadoop_node_type == 'resourcemanager')
+
+- name: "HADOOP 2 @ Stop resourcemanager daemon on master"
+  command: "{{ hadoop_home }}/sbin/yarn-daemon.sh start resourcemanager"
+  when:
+    - hadoop_2
+    - (hadoop_node_type == 'master') or (hadoop_node_type == 'resourcemanager')
+    - resourcemanager_check is failed
+
+- name: "HADOOP 2 @ Start resourcemanager daemon on master"
+  command: "{{ hadoop_home }}/sbin/yarn-daemon.sh start resourcemanager"
+  when:
+    - hadoop_2
     - (hadoop_node_type == 'master') or (hadoop_node_type == 'resourcemanager')
 
 ################################################################################
 # Worker YARN
 - name: Start nodemanager daemon on workers
   command: "{{ hadoop_home }}/bin/yarn --daemon start nodemanager"
-  when: 
+  when:
+    - not hadoop_2
     - (hadoop_node_type == 'worker') or (hadoop_node_type == 'nodemanager')
+
+- name: "HADOOP 2 @ Start nodemanager daemon on workers"
+  command: "{{ hadoop_home }}/sbin/yarn-daemon.sh start datanode"
+  ignore_errors: True  # Master could have already started the deamon
+  when:
+    - hadoop_2
+    - (hadoop_node_type == 'worker') or (hadoop_node_type == 'datanode')
 
 ################################################################################
 # Start services from master
@@ -33,17 +65,14 @@
 # YARN
 # If nodemanager are already running it will restart the nodemanagers, otherwise
 # they will be started for the first time
-- name: Start yarn
-  command: "{{ hadoop_home }}/sbin/start-yarn.sh"
-  register: start_yarn_check
-  ignore_errors: True
-  when: 
+- name: Stop globally yarn
+  command: "{{ hadoop_home }}/sbin/stop-yarn.sh"
+  when:
   - master_key == True
   - (hadoop_node_type == 'master') or (hadoop_node_type == 'resourcemanager')
 
-- name: Restart yarn in case nodemanagers are already started
-  command: "{{ hadoop_home }}/sbin/stop-yarn.sh && {{ hadoop_home }}/sbin/start-yarn.sh"
+- name: Start globally yarn
+  command: "{{ hadoop_home }}/sbin/start-yarn.sh"
   when:
-  - start_yarn_check is succeeded
   - master_key == True
   - (hadoop_node_type == 'master') or (hadoop_node_type == 'resourcemanager')

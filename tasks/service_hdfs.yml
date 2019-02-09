@@ -35,19 +35,19 @@
 
 - name: format HDFS
   command: "{{ hadoop_home }}/bin/hdfs namenode -format -force"
-  when: 
+  when:
     - (hadoop_node_type == 'master' and hadoop_node_role == 'all') or (hadoop_node_type == 'master' and hadoop_node_role == 'namenode')
     - namenode_stop is succeeded
 
 - name: Start namenode daemon on master
   command: "{{ hadoop_home }}/bin/hdfs --daemon start namenode"
-  when: 
+  when:
     - not hadoop_2
     - (hadoop_node_type == 'master') or (hadoop_node_type == 'namenode')
 
 - name: "HADOOP 2 @ Start namenode daemon on master"
   command: "{{ hadoop_home }}/sbin/hadoop-daemon.sh start namenode"
-  when: 
+  when:
     - hadoop_2
     - (hadoop_node_type == 'master') or (hadoop_node_type == 'namenode')
 
@@ -111,13 +111,20 @@
 
 
 ################################################################################
-# Start services from master
+# Start services from master [if there are keys]
 ##
 # HDFS
 # If datanode are already running it will restart the datanodes, otherwise
 # they will be started for the first time
-- name: Start dfs
+- name: Stop globally dfs
+  command: "{{ hadoop_home }}/sbin/stop-dfs.sh"
+  ignore_errors: True
+  when:
+    - master_key == True
+    - (hadoop_node_type == 'master') or (hadoop_node_type == 'namenode')
+
+- name: Start globally dfs
   command: "{{ hadoop_home }}/sbin/start-dfs.sh"
-  when: 
+  when:
     - master_key == True
     - (hadoop_node_type == 'master') or (hadoop_node_type == 'namenode')
