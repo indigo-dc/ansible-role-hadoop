@@ -1,12 +1,6 @@
 ## Required variables
 # hadoop_master
 
-##
-# Targets: 
-#   - hdfs (implemented)
-#   - hdfsOnYARN
-#   - hdfsOnMesos
-target: hdfs
 # The type of the node: master / worker
 hadoop_node_type: worker
 # Roles: master -> [namenode, resourcemanager] and worker -> [datanode, nodemanager]
@@ -36,7 +30,7 @@ yarn_props: {
   'yarn.scheduler.minimum-allocation-mb': 128,
   'yarn.nodemanager.vmem-check-enabled': false
 }
-
+# A dictionary with a set of properties to set in the mapred-site.xml
 mapred_props: {
   'yarn.app.mapreduce.am.resource.mb': 512,
   'mapreduce.map.memory.mb': 256,
@@ -44,16 +38,17 @@ mapred_props: {
 }
 
 hdfs_port: 9000
-
+# A dictionary with a set of properties to set in the core-site.xml
 core_props: {
   'hadoop.proxyuser.root.hosts': "*",
   'hadoop.proxyuser.root.groups': "*"
 }
 
 master_key: false
+# Private and public key of master node
 master_pub_key: ""
 master_priv_key: ""
-worker_ips: []
+worker_ips: [ 'localhost' ]
 
 yarn: false
 yarn_mapred_port: 54311

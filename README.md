@@ -1,31 +1,71 @@
 Hadoop Cluster Role 
 ==================
 
-Installs and configure Hadoop system (version 3.b.c) in a cluster of nodes.
+Installs and configure Hadoop system (version 2.x.y or 3.x.y) in a cluster of nodes.
 
 Role Variables
 --------------
 
 The variables that can be passed to this role and a brief description about them are as follows:
 
-	# The type of the node: slave or master or resourcemanager or nodemanager or datanode or namenode 
-	hadoop_node_type: slave
-	# Hadoop base directory to install the software
-	hadoop_home: /opt/hadoop
-	# List of servers to download the hadoop code
-	hadoop_mirrors: [ 
-		"http://apache.rediris.es/hadoop/common",
-		"http://apache.panu.it/hadoop/common",
-		"http://apache.lauf-forum.at/hadoop/common",
-		"http://apache.mindstudios.com/hadoop/common",
-		"http://www-eu.apache.org/dist/hadoop/common"
-	]
-	# Hadoop version to install
-	hadoop_version: 3.1.0
-	# A dictionary with a set of properties to set in the core-site.xml
-	hdfs_props: {}
-	# A dictionary with a set of properties to set in the yarn-site.xml
-	yarn_props: {}
+> ## Required variables
+> # hadoop_master
+> 
+> # The type of the node: master / worker
+> hadoop_node_type: worker
+> # Roles: master -> [namenode, resourcemanager] and worker -> [datanode, nodemanager]
+> hadoop_node_role: all
+> # Hadoop base directory to install the software
+> hadoop_home: /opt/hadoop
+> # List of servers to download the hadoop code
+> hadoop_mirrors: [ 
+>   "http://apache.rediris.es/hadoop/common",
+>   "http://apache.lauf-forum.at/hadoop/common",
+>   "http://www-eu.apache.org/dist/hadoop/common"
+> ]
+> # Hadoop version to install
+> hadoop_version: 3.2.0
+> hadoop_2: false
+> # A dictionary with a set of properties to set in the hdfs-site.xml
+> hdfs_props: {
+>   # 'dfs.webhdfs.enabled': true
+>   'dfs.replication': 1
+> }
+> # A dictionary with a set of properties to set in the yarn-site.xml
+> yarn_props: {
+>   'yarn.acl.enable': 0,
+>   'yarn.nodemanager.aux-services': "mapreduce_shuffle",
+>   'yarn.nodemanager.resource.memory-mb': 1536,
+>   'yarn.scheduler.maximum-allocation-mb': 1536,
+>   'yarn.scheduler.minimum-allocation-mb': 128,
+>   'yarn.nodemanager.vmem-check-enabled': false
+> }
+> # A dictionary with a set of properties to set in the mapred-site.xml
+> mapred_props: {
+>   'yarn.app.mapreduce.am.resource.mb': 512,
+>   'mapreduce.map.memory.mb': 256,
+>   'mapreduce.reduce.memory.mb': 256
+> }
+> 
+> hdfs_port: 9000
+> # A dictionary with a set of properties to set in the core-site.xml
+> core_props: {
+>   'hadoop.proxyuser.root.hosts': "*",
+>   'hadoop.proxyuser.root.groups': "*"
+> }
+> 
+> master_key: false
+> # Private and public key of master node
+> master_pub_key: ""
+> master_priv_key: ""
+> worker_ips: [ 'localhost' ]
+> 
+> yarn: false
+> yarn_mapred_port: 54311
+> 
+> httpfs: false
+> httpfs_user: null
+> httpfs_password: null
 
 Example Playbook
 ----------------
@@ -75,6 +115,22 @@ This is the new configuration:
   | 50075|9864  |
 
 > Note: if you use the older version you have no differences
+
+Use HTTPFS
+----------
+
+Example:
+
+```bash
+# Create the file
+curl -u httpfs_user:httpfs_password -k -i -X PUT "https://master_ip:14000/webhdfs/v1/test.txt?op=CREATE&user.name=root&noredirect=true&overwrite=true"
+# Upload the file
+curl -u httpfs_user:httpfs_password -k -i -X PUT -H "content-type: application/octet-stream" -T /path/to/my/original/file/test.txt  "https://master_ip:14000/webhdfs/v1/test.txt?op=CREATE&data=true&user.name=root&noredirect=true&overwrite=true&data=true"
+# Get the file
+curl -u httpfs_user:httpfs_password -k -i -L -X GET "https://master_ip:14000/webhdfs/v1/test.txt?op=OPEN&user.name=root&noredirect=true"
+```
+
+> Note: httpfs server is used with nginx as proxy with a certificate and user and password.
 
 License
 -------
