@@ -101,14 +101,37 @@
   with_first_found:
     - /usr/lib/jvm/java-8-openjdk-amd64
     - /usr/lib/jvm/jre-1.8.0
+  when:
+    - not hadoop_2
 
 - name: Add HADOOP_HOME in hadoop ENV
   lineinfile: 
     dest: "{{ hadoop_home }}/etc/hadoop/hadoop-env.sh"
     regexp: "# export\ HADOOP_HOME="
     line: "export HADOOP_HOME={{hadoop_home}}"
+  when:
+    - not hadoop_2
 
-- name: Add HDFS user root in hadoop ENV
+- name: Add JAVA_HOME in hadoop ENV
+  lineinfile: 
+    dest: "{{ hadoop_home }}/etc/hadoop/hadoop-env.sh"
+    regexp: "export\ JAVA_HOME="
+    line: "export JAVA_HOME={{item}}"
+  with_first_found:
+    - /usr/lib/jvm/java-8-openjdk-amd64
+    - /usr/lib/jvm/jre-1.8.0
+  when:
+    - hadoop_2
+
+- name: "HADOOP 2 @ Add HADOOP_HOME in hadoop ENV"
+  blockinfile: 
+    dest: "{{ hadoop_home }}/etc/hadoop/hadoop-env.sh"
+    marker: "# {mark} HADOOP HOME"
+    block: "export HADOOP_HOME={{hadoop_home}}"
+  when:
+    - hadoop_2
+
+- name: "HADOOP 2 @ Add HDFS user root in hadoop ENV"
   blockinfile: 
     dest: "{{ hadoop_home }}/etc/hadoop/hadoop-env.sh"
     marker: "# {mark} HDFS USERS"
