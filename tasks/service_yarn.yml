@@ -66,13 +66,13 @@
 # If nodemanager are already running it will restart the nodemanagers, otherwise
 # they will be started for the first time
 - name: Stop globally yarn
-  command: "yes | {{ hadoop_home }}/sbin/stop-yarn.sh"
+  command: "{{ hadoop_home }}/sbin/stop-yarn.sh"
   when:
   - master_key == True
   - (hadoop_node_type == 'master') or (hadoop_node_type == 'resourcemanager')
 
 - name: Start globally yarn
-  command: "yes | {{ hadoop_home }}/sbin/start-yarn.sh"
+  command: "{{ hadoop_home }}/sbin/start-yarn.sh"
   when:
   - master_key == True
   - (hadoop_node_type == 'master') or (hadoop_node_type == 'resourcemanager')
