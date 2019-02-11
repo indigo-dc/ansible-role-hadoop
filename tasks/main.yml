@@ -27,18 +27,24 @@
     - httpfs == True
     - hadoop_node_type == 'master'
 
-- name: Configure hadoop common components
+- name: Stop all components
+  include: service_stop_all.yml
+
+- name: Clean hdfs environment
+  include: service_hdfs_clean.yml
+
+- name: Configure hadoop
   include: configure_common.yml
 
-- name: Start hdfs components
+- name: Start hdfs service
   include: service_hdfs.yml
 
-- name: Start yarn components
+- name: Start yarn service
   include: service_yarn.yml
   when:
     - yarn == True
 
-- name: Start httpfs components
+- name: Start httpfs service
   include: service_httpfs.yml
   when:
     - httpfs == True

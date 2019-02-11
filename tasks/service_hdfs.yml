@@ -1,69 +1,7 @@
 ---
 ################################################################################
 # Master HDFS
-# CHECK AND STOP SERVICES
-- name: Check namenode daemon on master
-  command: "{{ hadoop_home }}/bin/hdfs --daemon status namenode"
-  register: namenode_check
-  ignore_errors: True
-  when:
-    - not hadoop_2
-    - (hadoop_node_type == 'master') or (hadoop_node_type == 'namenode')
-
-- name: Stop namenode daemon on master
-  command: "{{ hadoop_home }}/bin/hdfs --daemon stop namenode"
-  register: namenode_stop
-  when:
-    - not hadoop_2
-    - (hadoop_node_type == 'master') or (hadoop_node_type == 'namenode')
-    - namenode_check is succeeded
-
-- name: "HADOOP 2 @ Check namenode daemon on master"
-  command: "{{ hadoop_home }}/sbin/hadoop-daemon.sh start namenode"
-  register: namenode_check
-  ignore_errors: True
-  when:
-    - hadoop_2
-    - (hadoop_node_type == 'master') or (hadoop_node_type == 'namenode')
-
-- name: "HADOOP 2 @ Stop namenode daemon on master"
-  command: "{{ hadoop_home }}/sbin/hadoop-daemon.sh stop namenode"
-  register: namenode_stop
-  when:
-    - hadoop_2
-    - (hadoop_node_type == 'master') or (hadoop_node_type == 'namenode')
-    - namenode_check is failed
-
-- name: Check secondarynamenode daemon on master
-  command: "{{ hadoop_home }}/bin/hdfs --daemon status secondarynamenode"
-  register: secondarynamenode_check
-  ignore_errors: True
-  when:
-    - not hadoop_2
-    - (hadoop_node_type == 'master') or (hadoop_node_type == 'secondarynamenode')
-
-- name: Stop secondarynamenode daemon on master
-  command: "{{ hadoop_home }}/bin/hdfs --daemon stop secondarynamenode"
-  when:
-    - not hadoop_2
-    - (hadoop_node_type == 'master') or (hadoop_node_type == 'secondarynamenode')
-    - secondarynamenode_check is succeeded
-
-- name: "HADOOP 2 @ Check secondarynamenode daemon on master"
-  command: "{{ hadoop_home }}/sbin/hadoop-daemon.sh start secondarynamenode"
-  register: secondarynamenode_check
-  ignore_errors: True
-  when:
-    - hadoop_2
-    - (hadoop_node_type == 'master') or (hadoop_node_type == 'secondarynamenode')
-
-- name: "HADOOP 2 @ Stop secondarynamenode daemon on master"
-  command: "{{ hadoop_home }}/sbin/hadoop-daemon.sh stop secondarynamenode"
-  when:
-    - hadoop_2
-    - (hadoop_node_type == 'master') or (hadoop_node_type == 'secondarynamenode')
-    - secondarynamenode_check is failed
-
+################################################################################
 # FORMAT NAMENODE
 - name: format HDFS
   command: "{{ hadoop_home }}/bin/hdfs namenode -format"
@@ -100,6 +38,7 @@
 
 ################################################################################
 # Worker HDFS
+################################################################################
 - name: Start datanode daemon on workers
   command: "{{ hadoop_home }}/bin/hdfs --daemon start datanode"
   when:
@@ -117,7 +56,7 @@
 
 ################################################################################
 # Start services from master [if there are keys]
-##
+################################################################################
 # HDFS
 # If datanode are already running it will restart the datanodes, otherwise
 # they will be started for the first time

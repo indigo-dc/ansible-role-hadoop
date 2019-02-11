@@ -1,42 +1,13 @@
 ---
 ################################################################################
 # Master YARN
-- name: Check resourcemanager daemon on master
-  command: "{{ hadoop_home }}/bin/yarn --daemon status resourcemanager"
-  register: resourcemanager_check
-  ignore_errors: True
-  when:
-    - not hadoop_2
-    - (hadoop_node_type == 'master') or (hadoop_node_type == 'resourcemanager')
-
-- name: Stop resourcemanager daemon on master
-  command: "{{ hadoop_home }}/bin/yarn --daemon stop resourcemanager"
-  when:
-    - not hadoop_2
-    - (hadoop_node_type == 'master') or (hadoop_node_type == 'resourcemanager')
-    - resourcemanager_check is succeeded
-
+################################################################################
 - name: Start resourcemanager daemon on master
   command: "{{ hadoop_home }}/bin/yarn --daemon start resourcemanager"
   when:
     - master_key == False
     - not hadoop_2
     - (hadoop_node_type == 'master') or (hadoop_node_type == 'resourcemanager')
-
-- name: "HADOOP 2 @ Check resourcemanager daemon on master"
-  command: "{{ hadoop_home }}/sbin/yarn-daemon.sh start resourcemanager"
-  register: resourcemanager_check
-  ignore_errors: True
-  when:
-    - hadoop_2
-    - (hadoop_node_type == 'master') or (hadoop_node_type == 'resourcemanager')
-
-- name: "HADOOP 2 @ Stop resourcemanager daemon on master"
-  command: "{{ hadoop_home }}/sbin/yarn-daemon.sh stop resourcemanager"
-  when:
-    - hadoop_2
-    - (hadoop_node_type == 'master') or (hadoop_node_type == 'resourcemanager')
-    - resourcemanager_check is failed
 
 - name: "HADOOP 2 @ Start resourcemanager daemon on master"
   command: "{{ hadoop_home }}/sbin/yarn-daemon.sh start resourcemanager"
@@ -47,6 +18,7 @@
 
 ################################################################################
 # Worker YARN
+################################################################################
 - name: Start nodemanager daemon on workers
   command: "{{ hadoop_home }}/bin/yarn --daemon start nodemanager"
   when:
@@ -63,7 +35,7 @@
 
 ################################################################################
 # Start services from master
-
+################################################################################
 ##
 # YARN
 # If nodemanager are already running it will restart the nodemanagers, otherwise

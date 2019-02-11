@@ -79,23 +79,3 @@
   command: "mv /opt/hadoop-{{ hadoop_version }} {{ hadoop_home }}"
   when:
     - hadoop_home_stat_result.stat.exists == False
-
-- name: Remove previous data dir
-  file:
-    path: "{{ hadoop_home }}/data"
-    state: absent
-
-- name: Create data dir
-  file:
-    path: "{{ hadoop_home }}/data"
-    state: directory
-
-- name: Create data namenode dir
-  file:
-    path: "{{ hadoop_home }}/data/nameNode"
-    state: directory
-
-- name: Create data datanode dir
-  file:
-    path: "{{ hadoop_home }}/data/dataNode"
-    state: directory
