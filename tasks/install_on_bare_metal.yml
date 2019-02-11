@@ -181,6 +181,11 @@
     - "/home/cloudadm/.profile"
     - "/home/cloudadm/.bashrc"
 
+- name: Remove previous data dir
+  file:
+    path: "{{ hadoop_home }}/data"
+    state: absent
+
 - name: Create data dir
   file:
     path: "{{ hadoop_home }}/data"
