@@ -58,15 +58,6 @@
 # Start services from master [if there are keys]
 ################################################################################
 # HDFS
-# If datanode are already running it will restart the datanodes, otherwise
-# they will be started for the first time
-- name: Stop globally dfs
-  command: "{{ hadoop_home }}/sbin/stop-dfs.sh"
-  ignore_errors: True
-  when:
-    - master_key == True
-    - (hadoop_node_type == 'master') or (hadoop_node_type == 'namenode')
-
 - name: Start globally dfs
   command: "{{ hadoop_home }}/sbin/start-dfs.sh"
   when:

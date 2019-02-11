@@ -29,9 +29,13 @@
 
 - name: Stop all components
   include: service_stop_all.yml
+  when:
+    - hadoop_node_type == 'master'
 
 - name: Clean hdfs environment
   include: service_hdfs_clean.yml
+  when:
+    - hadoop_node_type == 'master'
 
 - name: Configure hadoop
   include: configure_common.yml

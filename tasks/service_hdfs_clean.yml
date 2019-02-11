@@ -9,19 +9,13 @@
   file:
     path: "{{ hadoop_home }}/data"
     state: directory
-  when:
-    - hadoop_node_type == "master"
 
 - name: Create data namenode dir
   file:
     path: "{{ hadoop_home }}/data/nameNode"
     state: directory
-  when:
-    - hadoop_node_type == "master"
 
 - name: Create data datanode dir
   file:
     path: "{{ hadoop_home }}/data/dataNode"
     state: directory
-  when:
-    - hadoop_node_type == "master"
