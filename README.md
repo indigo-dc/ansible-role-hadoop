@@ -18,7 +18,7 @@ The variables that can be passed to this role and a brief description about them
 > ### Hadoop base directory to install the software
 > hadoop_home: /opt/hadoop
 > ### List of servers to download the hadoop code
-> hadoop_mirrors: [ 
+> hadoop_mirrors: [  
 >   "http://apache.rediris.es/hadoop/common",  
 >   "http://apache.lauf-forum.at/hadoop/common",  
 >   "http://www-eu.apache.org/dist/hadoop/common"  
@@ -31,7 +31,7 @@ The variables that can be passed to this role and a brief description about them
 >   'dfs.replication': 1  
 > }
 > ### A dictionary with a set of properties to set in the yarn-site.xml
-> yarn_props: {
+> yarn_props: {  
 >   'yarn.acl.enable': 0,  
 >   'yarn.nodemanager.aux-services': "mapreduce_shuffle",  
 >   'yarn.nodemanager.resource.memory-mb': 1536,  
@@ -40,7 +40,7 @@ The variables that can be passed to this role and a brief description about them
 >   'yarn.nodemanager.vmem-check-enabled': false  
 > }
 > ### A dictionary with a set of properties to set in the mapred-site.xml
-> mapred_props: {
+> mapred_props: {  
 >   'yarn.app.mapreduce.am.resource.mb': 512,  
 >   'mapreduce.map.memory.mb': 256,  
 >   'mapreduce.reduce.memory.mb': 256  
@@ -48,7 +48,7 @@ The variables that can be passed to this role and a brief description about them
 > 
 > hdfs_port: 9000
 > ### A dictionary with a set of properties to set in the core-site.xml
-> core_props: {
+> core_props: {  
 >   'hadoop.proxyuser.root.hosts': "*",  
 >   'hadoop.proxyuser.root.groups': "*"  
 > }
