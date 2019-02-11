@@ -19,6 +19,7 @@
 - name: Start resourcemanager daemon on master
   command: "{{ hadoop_home }}/bin/yarn --daemon start resourcemanager"
   when:
+    - master_key == False
     - not hadoop_2
     - (hadoop_node_type == 'master') or (hadoop_node_type == 'resourcemanager')
 
@@ -40,6 +41,7 @@
 - name: "HADOOP 2 @ Start resourcemanager daemon on master"
   command: "{{ hadoop_home }}/sbin/yarn-daemon.sh start resourcemanager"
   when:
+    - master_key == False
     - hadoop_2
     - (hadoop_node_type == 'master') or (hadoop_node_type == 'resourcemanager')
 
@@ -48,13 +50,14 @@
 - name: Start nodemanager daemon on workers
   command: "{{ hadoop_home }}/bin/yarn --daemon start nodemanager"
   when:
+    - master_key == False
     - not hadoop_2
     - (hadoop_node_type == 'worker') or (hadoop_node_type == 'nodemanager')
 
 - name: "HADOOP 2 @ Start nodemanager daemon on workers"
   command: "{{ hadoop_home }}/sbin/yarn-daemon.sh start datanode"
-  ignore_errors: True  # Master could have already started the deamon
   when:
+    - master_key == False
     - hadoop_2
     - (hadoop_node_type == 'worker') or (hadoop_node_type == 'datanode')
 
