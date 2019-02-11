@@ -27,6 +27,9 @@
     - httpfs == True
     - hadoop_node_type == 'master'
 
+- name: Configure hadoop environment
+  include: configure_common.yml
+
 - name: Stop all components
   include: service_stop_all.yml
   when:
@@ -36,9 +39,6 @@
   include: service_hdfs_clean.yml
   when:
     - hadoop_node_type == 'master'
-
-- name: Configure hadoop
-  include: configure_common.yml
 
 - name: Start hdfs service
   include: service_hdfs.yml
