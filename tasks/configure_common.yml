@@ -86,3 +86,119 @@
     mode: 0600
   when:
     - master_key == True
+
+- name: Add JAVA_HOME in ENV
+  lineinfile:
+    dest: "/etc/environment"
+    line: "JAVA_HOME={{item}}"
+  with_first_found:
+    - /usr/lib/jvm/java-8-openjdk-amd64
+    - /usr/lib/jvm/jre-1.8.0
+
+- name: Add HADOOP_HOME in ENV
+  lineinfile:
+    dest: "/etc/environment"
+    line: "HADOOP_HOME={{hadoop_home}}"
+
+- name: Add JAVA_HOME in hadoop ENV
+  lineinfile: 
+    dest: "{{ hadoop_home }}/etc/hadoop/hadoop-env.sh"
+    regexp: "# export\ JAVA_HOME="
+    line: "export JAVA_HOME={{item}}"
+  with_first_found:
+    - /usr/lib/jvm/java-8-openjdk-amd64
+    - /usr/lib/jvm/jre-1.8.0
+  when:
+    - not hadoop_2
+
+- name: Add HADOOP_HOME in hadoop ENV
+  lineinfile: 
+    dest: "{{ hadoop_home }}/etc/hadoop/hadoop-env.sh"
+    regexp: "# export\ HADOOP_HOME="
+    line: "export HADOOP_HOME={{hadoop_home}}"
+  when:
+    - not hadoop_2
+
+- name: Add JAVA_HOME in hadoop ENV
+  lineinfile: 
+    dest: "{{ hadoop_home }}/etc/hadoop/hadoop-env.sh"
+    regexp: "export\ JAVA_HOME="
+    line: "export JAVA_HOME={{item}}"
+  with_first_found:
+    - /usr/lib/jvm/java-8-openjdk-amd64
+    - /usr/lib/jvm/jre-1.8.0
+  when:
+    - hadoop_2
+
+- name: "HADOOP 2 @ Add HADOOP_HOME in hadoop ENV"
+  blockinfile: 
+    dest: "{{ hadoop_home }}/etc/hadoop/hadoop-env.sh"
+    marker: "# {mark} HADOOP HOME"
+    block: "export HADOOP_HOME={{hadoop_home}}"
+  when:
+    - hadoop_2
+
+- name: "HADOOP 2 @ Add HDFS user root in hadoop ENV"
+  blockinfile: 
+    dest: "{{ hadoop_home }}/etc/hadoop/hadoop-env.sh"
+    marker: "# {mark} HDFS USERS"
+    block: |
+      export HDFS_NAMENODE_USER=root
+      export HDFS_DATANODE_USER=root
+      export HDFS_SECONDARYNAMENODE_USER=root
+
+- name: Add YARN user root in hadoop ENV
+  blockinfile: 
+    dest: "{{ hadoop_home }}/etc/hadoop/hadoop-env.sh"
+    marker: "# {mark} YARN USERS"
+    block: |
+      export YARN_RESOURCEMANAGER_USER=root
+      export YARN_NODEMANAGER_USER=root
+  when:
+    - yarn == True
+
+- name: Add HTTPFS ENV
+  blockinfile: 
+    dest: "{{ hadoop_home }}/etc/hadoop/httpfs-env.sh"
+    marker: "# {mark} HTTPFS VARS"
+    block: |
+      export HTTPFS_HTTP_PORT=13999
+      export HTTPFS_ADMIN_PORT=14002
+      export HTTPFS_LOG=/var/log/httpfs.log
+  when:
+    - httpfs == True
+
+- name: Add JAVA bin dir to system-wide $PATH.
+  lineinfile:
+    dest: "{{ item }}"
+    line: 'export PATH=$PATH:$JAVA_HOME/bin'
+  with_items:
+    - "~/.profile"
+    - "~/.bashrc"
+    - "/home/cloudadm/.profile"
+    - "/home/cloudadm/.bashrc"
+
+- name: Add HADOOP bin dir to system-wide $PATH.
+  lineinfile:
+    dest: "{{ item }}"
+    line: 'export PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin'
+  with_items:
+    - "~/.profile"
+    - "~/.bashrc"
+    - "/home/cloudadm/.profile"
+    - "/home/cloudadm/.bashrc"
+
+- name: Remove host key check for private ips
+  blockinfile: 
+    dest: "/etc/ssh/ssh_config"
+    marker: "# {mark} PRIVATE IPS"
+    block: |
+      Host {{ ".".join(hadoop_master.split(".")[:-2]) }}.*
+          StrictHostKeyChecking no
+          UserKnownHostsFile=/dev/null
+      
+      Host 0.0.0.0
+          StrictHostKeyChecking no
+          UserKnownHostsFile=/dev/null
+  when:
+    - master_key == True
