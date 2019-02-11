@@ -19,11 +19,19 @@
 <configuration>
     <property>
             <name>dfs.namenode.name.dir</name>
+            {% if not hadoop_2 %}
             <value>file://{{ hadoop_home }}/data/nameNode</value>
+            {% elif hadoop_2 %}
+            <value>{{ hadoop_home }}/data/nameNode</value>
+            {% endif %}
     </property>
     <property>
             <name>dfs.datanode.data.dir</name>
+            {% if not hadoop_2 %}
             <value>file://{{ hadoop_home }}/data/dataNode</value>
+            {% elif hadoop_2 %}
+            <value>{{ hadoop_home }}/data/dataNode</value>
+            {% endif %}
     </property>
 {% for key, value in hdfs_props.iteritems() %}
     <property>
