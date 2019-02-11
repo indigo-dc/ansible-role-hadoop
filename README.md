@@ -8,30 +8,30 @@ Role Variables
 
 The variables that can be passed to this role and a brief description about them are as follows:
 
-> ## Required variables
-> # hadoop_master
+> #### Required variables
+> ### hadoop_master
 > 
-> # The type of the node: master / worker
+> ### The type of the node: master / worker
 > hadoop_node_type: worker
-> # Roles: master -> [namenode, resourcemanager] and worker -> [datanode, nodemanager]
+> ### Roles: master -> [namenode, resourcemanager] and worker -> [datanode, nodemanager]
 > hadoop_node_role: all
-> # Hadoop base directory to install the software
+> ### Hadoop base directory to install the software
 > hadoop_home: /opt/hadoop
-> # List of servers to download the hadoop code
+> ### List of servers to download the hadoop code
 > hadoop_mirrors: [ 
 >   "http://apache.rediris.es/hadoop/common",
 >   "http://apache.lauf-forum.at/hadoop/common",
 >   "http://www-eu.apache.org/dist/hadoop/common"
 > ]
-> # Hadoop version to install
+> ### Hadoop version to install
 > hadoop_version: 3.2.0
 > hadoop_2: false
-> # A dictionary with a set of properties to set in the hdfs-site.xml
+> ### A dictionary with a set of properties to set in the hdfs-site.xml
 > hdfs_props: {
 >   # 'dfs.webhdfs.enabled': true
 >   'dfs.replication': 1
 > }
-> # A dictionary with a set of properties to set in the yarn-site.xml
+> ### A dictionary with a set of properties to set in the yarn-site.xml
 > yarn_props: {
 >   'yarn.acl.enable': 0,
 >   'yarn.nodemanager.aux-services': "mapreduce_shuffle",
@@ -40,7 +40,7 @@ The variables that can be passed to this role and a brief description about them
 >   'yarn.scheduler.minimum-allocation-mb': 128,
 >   'yarn.nodemanager.vmem-check-enabled': false
 > }
-> # A dictionary with a set of properties to set in the mapred-site.xml
+> ### A dictionary with a set of properties to set in the mapred-site.xml
 > mapred_props: {
 >   'yarn.app.mapreduce.am.resource.mb': 512,
 >   'mapreduce.map.memory.mb': 256,
@@ -48,14 +48,14 @@ The variables that can be passed to this role and a brief description about them
 > }
 > 
 > hdfs_port: 9000
-> # A dictionary with a set of properties to set in the core-site.xml
+> ### A dictionary with a set of properties to set in the core-site.xml
 > core_props: {
 >   'hadoop.proxyuser.root.hosts': "*",
 >   'hadoop.proxyuser.root.groups': "*"
 > }
 > 
 > master_key: false
-> # Private and public key of master node
+> ### Private and public key of master node
 > master_pub_key: ""
 > master_priv_key: ""
 > worker_ips: [ 'localhost' ]
