@@ -213,5 +213,5 @@
       Host 0.0.0.0
           StrictHostKeyChecking no
           UserKnownHostsFile=/dev/null
-    when:
-      - master_key == True
+  when:
+    - master_key == True
