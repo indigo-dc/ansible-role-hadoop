@@ -19,38 +19,38 @@ The variables that can be passed to this role and a brief description about them
 > hadoop_home: /opt/hadoop
 > ### List of servers to download the hadoop code
 > hadoop_mirrors: [  
->   "http://apache.rediris.es/hadoop/common",  
->   "http://apache.lauf-forum.at/hadoop/common",  
->   "http://www-eu.apache.org/dist/hadoop/common"  
+>&nbsp;&nbsp;&nbsp;"http://apache.rediris.es/hadoop/common",  
+>&nbsp;&nbsp;&nbsp;"http://apache.lauf-forum.at/hadoop/common",  
+>&nbsp;&nbsp;&nbsp;"http://www-eu.apache.org/dist/hadoop/common"  
 > ]
 > ### Hadoop version to install
 > hadoop_version: 3.2.0
 > hadoop_2: false
 > ### A dictionary with a set of properties to set in the hdfs-site.xml
 > hdfs_props: {
->   'dfs.replication': 1  
+>&nbsp;&nbsp;&nbsp;'dfs.replication': 1  
 > }
 > ### A dictionary with a set of properties to set in the yarn-site.xml
 > yarn_props: {  
->   'yarn.acl.enable': 0,  
->   'yarn.nodemanager.aux-services': "mapreduce_shuffle",  
->   'yarn.nodemanager.resource.memory-mb': 1536,  
->   'yarn.scheduler.maximum-allocation-mb': 1536,  
->   'yarn.scheduler.minimum-allocation-mb': 128,  
->   'yarn.nodemanager.vmem-check-enabled': false  
+>&nbsp;&nbsp;&nbsp;'yarn.acl.enable': 0,  
+>&nbsp;&nbsp;&nbsp;'yarn.nodemanager.aux-services': "mapreduce_shuffle",  
+>&nbsp;&nbsp;&nbsp;'yarn.nodemanager.resource.memory-mb': 1536,  
+>&nbsp;&nbsp;&nbsp;'yarn.scheduler.maximum-allocation-mb': 1536,  
+>&nbsp;&nbsp;&nbsp;'yarn.scheduler.minimum-allocation-mb': 128,  
+>&nbsp;&nbsp;&nbsp;'yarn.nodemanager.vmem-check-enabled': false  
 > }
 > ### A dictionary with a set of properties to set in the mapred-site.xml
 > mapred_props: {  
->   'yarn.app.mapreduce.am.resource.mb': 512,  
->   'mapreduce.map.memory.mb': 256,  
->   'mapreduce.reduce.memory.mb': 256  
+>&nbsp;&nbsp;&nbsp;'yarn.app.mapreduce.am.resource.mb': 512,  
+>&nbsp;&nbsp;&nbsp;'mapreduce.map.memory.mb': 256,  
+>&nbsp;&nbsp;&nbsp;'mapreduce.reduce.memory.mb': 256  
 > }
 > 
 > hdfs_port: 9000
 > ### A dictionary with a set of properties to set in the core-site.xml
 > core_props: {  
->   'hadoop.proxyuser.root.hosts': "*",  
->   'hadoop.proxyuser.root.groups': "*"  
+>&nbsp;&nbsp;&nbsp;'hadoop.proxyuser.root.hosts': "*",  
+>&nbsp;&nbsp;&nbsp;'hadoop.proxyuser.root.groups': "*"  
 > }
 > 
 > master_key: false
