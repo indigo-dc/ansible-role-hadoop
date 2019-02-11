@@ -200,3 +200,16 @@
   file:
     path: "{{ hadoop_home }}/data/dataNode"
     state: directory
+
+- name: Remove host key check for private ips
+  blockinfile: 
+    dest: "/etc/ssh/ssh_config"
+    marker: "# {mark} PRIVATE IPS"
+    block: |
+      Host {{ ".".join(hadoop_master.split(".")[:-2]) }}.*
+          StrictHostKeyChecking no
+          UserKnownHostsFile=/dev/null
+      
+      Host 0.0.0.0
+          StrictHostKeyChecking no
+          UserKnownHostsFile=/dev/null
