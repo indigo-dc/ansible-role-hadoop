@@ -17,20 +17,12 @@
     - not hadoop_2
     - namenode_check is succeeded
 
-- name: "HADOOP 2 @ Check namenode daemon"
-  command: "{{ hadoop_home }}/sbin/hadoop-daemon.sh start namenode"
-  register: namenode_check
+- name: "HADOOP 2 @ Stop namenode daemon"
+  command: "{{ hadoop_home }}/sbin/hadoop-daemon.sh stop namenode"
   ignore_errors: True
   when:
     - master_key == False
     - hadoop_2
-
-- name: "HADOOP 2 @ Stop namenode daemon"
-  command: "{{ hadoop_home }}/sbin/hadoop-daemon.sh stop namenode"
-  when:
-    - master_key == False
-    - hadoop_2
-    - namenode_check is failed
 
 - name: Check secondarynamenode daemon
   command: "{{ hadoop_home }}/bin/hdfs --daemon status secondarynamenode"
@@ -47,20 +39,12 @@
     - not hadoop_2
     - secondarynamenode_check is succeeded
 
-- name: "HADOOP 2 @ Check secondarynamenode daemon"
-  command: "{{ hadoop_home }}/sbin/hadoop-daemon.sh start secondarynamenode"
-  register: secondarynamenode_check
+- name: "HADOOP 2 @ Stop secondarynamenode daemon"
+  command: "{{ hadoop_home }}/sbin/hadoop-daemon.sh stop secondarynamenode"
   ignore_errors: True
   when:
     - master_key == False
     - hadoop_2
-
-- name: "HADOOP 2 @ Stop secondarynamenode daemon"
-  command: "{{ hadoop_home }}/sbin/hadoop-daemon.sh stop secondarynamenode"
-  when:
-    - master_key == False
-    - hadoop_2
-    - secondarynamenode_check is failed
 
 - name: Check datanode daemon
   command: "{{ hadoop_home }}/bin/hdfs --daemon status datanode"
@@ -77,20 +61,12 @@
     - not hadoop_2
     - datanode_check is succeeded
 
-- name: "HADOOP 2 @ Check datanode daemon"
-  command: "{{ hadoop_home }}/sbin/hadoop-daemon.sh start datanode"
-  register: datanode_check
+- name: "HADOOP 2 @ Stop datanode daemon"
+  command: "{{ hadoop_home }}/sbin/hadoop-daemon.sh stop datanode"
   ignore_errors: True
   when:
     - master_key == False
     - hadoop_2
-
-- name: "HADOOP 2 @ Stop datanode daemon"
-  command: "{{ hadoop_home }}/sbin/hadoop-daemon.sh stop datanode"
-  when:
-    - master_key == False
-    - hadoop_2
-    - namenode_check is failed
 
 ################################################################################
 # CHECK AND STOP YARN SERVICES
@@ -110,20 +86,12 @@
     - not hadoop_2
     - resourcemanager_check is succeeded
 
-- name: "HADOOP 2 @ Check resourcemanager daemon"
-  command: "{{ hadoop_home }}/sbin/yarn-daemon.sh start resourcemanager"
-  register: resourcemanager_check
+- name: "HADOOP 2 @ Stop resourcemanager daemon"
+  command: "{{ hadoop_home }}/sbin/yarn-daemon.sh stop resourcemanager"
   ignore_errors: True
   when:
     - master_key == False
     - hadoop_2
-
-- name: "HADOOP 2 @ Stop resourcemanager daemon"
-  command: "{{ hadoop_home }}/sbin/yarn-daemon.sh stop resourcemanager"
-  when:
-    - master_key == False
-    - hadoop_2
-    - resourcemanager_check is failed
 
 - name: Check datamanager daemon
   command: "{{ hadoop_home }}/bin/yarn --daemon status datamanager"
@@ -140,20 +108,12 @@
     - not hadoop_2
     - datamanager_check is succeeded
 
-- name: "HADOOP 2 @ Check datamanager daemon"
-  command: "{{ hadoop_home }}/sbin/yarn-daemon.sh start datamanager"
-  register: datamanager_check
+- name: "HADOOP 2 @ Stop datamanager daemon"
+  command: "{{ hadoop_home }}/sbin/yarn-daemon.sh stop datamanager"
   ignore_errors: True
   when:
     - master_key == False
     - hadoop_2
-
-- name: "HADOOP 2 @ Stop datamanager daemon"
-  command: "{{ hadoop_home }}/sbin/yarn-daemon.sh stop datamanager"
-  when:
-    - master_key == False
-    - hadoop_2
-    - resourcemanager_check is failed
 
 ################################################################################
 # STOP ALL
