@@ -48,7 +48,9 @@
     sleep: 60
   when:
     - (hadoop_node_type == 'worker') or (hadoop_node_type == 'datanode')
-  loop: # Wait for second namenode
+  # Wait for second namenode
+  #loop:  # For ansible >= 2.5
+  with_list:
     - "first"
     - "second"
 
