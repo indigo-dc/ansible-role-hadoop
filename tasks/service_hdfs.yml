@@ -44,6 +44,7 @@
     host: "{{ hadoop_master }}"
     port: 9000
     delay: 60
+    state: drained
   when:
     - (hadoop_node_type == 'worker') or (hadoop_node_type == 'datanode')
 
