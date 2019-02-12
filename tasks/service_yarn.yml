@@ -27,11 +27,11 @@
     - (hadoop_node_type == 'worker') or (hadoop_node_type == 'nodemanager')
 
 - name: "HADOOP 2 @ Start nodemanager daemon on workers"
-  command: "{{ hadoop_home }}/sbin/yarn-daemon.sh start datanode"
+  command: "{{ hadoop_home }}/sbin/yarn-daemon.sh start nodemanager"
   when:
     - master_key == False
     - hadoop_2
-    - (hadoop_node_type == 'worker') or (hadoop_node_type == 'datanode')
+    - (hadoop_node_type == 'worker') or (hadoop_node_type == 'nodemanager')
 
 ################################################################################
 # Start services from master
