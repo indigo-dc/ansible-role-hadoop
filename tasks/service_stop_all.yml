@@ -93,23 +93,23 @@
     - master_key == False
     - hadoop_2
 
-- name: Check datamanager daemon
-  command: "{{ hadoop_home }}/bin/yarn --daemon status datamanager"
-  register: datamanager_check
+- name: Check nodemanager daemon
+  command: "{{ hadoop_home }}/bin/yarn --daemon status nodemanager"
+  register: nodemanager_check
   ignore_errors: True
   when:
     - master_key == False
     - not hadoop_2
 
-- name: Stop datamanager daemon
-  command: "{{ hadoop_home }}/bin/yarn --daemon stop datamanager"
+- name: Stop nodemanager daemon
+  command: "{{ hadoop_home }}/bin/yarn --daemon stop nodemanager"
   when:
     - master_key == False
     - not hadoop_2
-    - datamanager_check is succeeded
+    - nodemanager_check is succeeded
 
-- name: "HADOOP 2 @ Stop datamanager daemon"
-  command: "{{ hadoop_home }}/sbin/yarn-daemon.sh stop datamanager"
+- name: "HADOOP 2 @ Stop nodemanager daemon"
+  command: "{{ hadoop_home }}/sbin/yarn-daemon.sh stop nodemanager"
   ignore_errors: True
   when:
     - master_key == False
