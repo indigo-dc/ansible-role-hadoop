@@ -16,7 +16,7 @@
     name: software-properties-common
   when: ansible_distribution == "Ubuntu"
 
-- name: Ubuntu 14 install OpenJDK PPA repo
+- name: Ubuntu install OpenJDK PPA repo
   apt_repository:
     repo: 'ppa:openjdk-r/ppa'
   when: ansible_distribution == "Ubuntu"
