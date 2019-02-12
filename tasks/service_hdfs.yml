@@ -48,7 +48,9 @@
     sleep: 60
   when:
     - (hadoop_node_type == 'worker') or (hadoop_node_type == 'datanode')
-  loop: "{{ range(2) | list }}" # Wait for second namenode
+  loop: # Wait for second namenode
+    - "first"
+    - "second"
 
 - name: Start datanode daemon on workers
   command: "{{ hadoop_home }}/bin/hdfs --daemon start datanode"
