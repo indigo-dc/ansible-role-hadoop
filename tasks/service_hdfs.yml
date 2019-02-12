@@ -39,6 +39,14 @@
 ################################################################################
 # Worker HDFS
 ################################################################################
+- name: Waits for namenode to be up
+  wait_for:
+    host: "{{ hadoop_master }}"
+    port: 9000
+    delay: 60
+  when:
+    - (hadoop_node_type == 'worker') or (hadoop_node_type == 'datanode')
+
 - name: Start datanode daemon on workers
   command: "{{ hadoop_home }}/bin/hdfs --daemon start datanode"
   when:
