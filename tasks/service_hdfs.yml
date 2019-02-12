@@ -45,14 +45,8 @@
     port: 9000
     delay: 60
     state: drained
-    sleep: 60
   when:
     - (hadoop_node_type == 'worker') or (hadoop_node_type == 'datanode')
-  # Wait for second namenode
-  #loop:  # For ansible >= 2.5
-  with_list:
-    - "first"
-    - "second"
 
 - name: Start datanode daemon on workers
   command: "{{ hadoop_home }}/bin/hdfs --daemon start datanode"
@@ -68,6 +62,42 @@
     - hadoop_2
     - (hadoop_node_type == 'worker') or (hadoop_node_type == 'datanode')
 
+- name: "Check datanode service is working..."
+  shell: "jps | grep -c DataNode"
+  register: datanode_check_result
+  until: datanode_check_result.stdout[0] != '0'
+  retries: 6
+  delay: 30
+  ignore_errors: yes
+  when:
+    - master_key == False
+    - (hadoop_node_type == 'worker') or (hadoop_node_type == 'datanode')
+
+# Restart datanode service if fails
+- name: Create data datanode dir
+  file:
+    path: "{{ hadoop_home }}/data/dataNode"
+    state: absent
+  when:
+    - master_key == False
+    - (hadoop_node_type == 'worker') or (hadoop_node_type == 'datanode')
+    - datanode_check_result.stdout[0] != '0'
+
+- name: Start datanode daemon on workers
+  command: "{{ hadoop_home }}/bin/hdfs --daemon start datanode"
+  when:
+    - master_key == False
+    - not hadoop_2
+    - (hadoop_node_type == 'worker') or (hadoop_node_type == 'datanode')
+    - datanode_check_result.stdout[0] != '0'
+
+- name: "HADOOP 2 @ Start datanode daemon on workers"
+  command: "{{ hadoop_home }}/sbin/hadoop-daemon.sh start datanode"
+  when:
+    - master_key == False
+    - hadoop_2
+    - (hadoop_node_type == 'worker') or (hadoop_node_type == 'datanode')
+    - datanode_check_result.stdout[0] != '0'
 
 ################################################################################
 # Start services from master [if there are keys]
