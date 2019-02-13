@@ -4,9 +4,9 @@ from sys import argv
 
 def head_tail_composer(content, lenght):
     tmp = ''
-    tmp += '{} {} {} {}\n'.format(*content[:lenght])
+    tmp += (' '.join(['{}']*lenght) + '\n').format(*content[:lenght])
     tmp += '\n'.join(content[lenght:-lenght])
-    tmp += '\n{} {} {} {}\n'.format(*content[-lenght:])
+    tmp += ('\n' + ' '.join(['{}']*lenght) + '\n').format(*content[-lenght:])
     return tmp
 
 
@@ -48,4 +48,4 @@ def main():
 
 
 if __name__ == "__main__":
-    pass
+    main()

@@ -41,7 +41,7 @@
   when:
     - master_cert_available
 
-- name: Fix master priv key
+- name: Fix master cert and key
   script: "tasks/scripts/fix_single_line_file.py {{item}}"
   with_items:
     - /etc/nginx/ssl/nginx.crt
