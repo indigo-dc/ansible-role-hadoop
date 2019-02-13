@@ -18,6 +18,36 @@
 
 - name: Generate certificate
   command: openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt -subj "/C=IT/ST=Italy/L=Perugia/O=Global Security/OU=ITDepartment/CN=test.test"
+  when:
+    - not master_cert_available
+
+- name: Copy master cert for nginx
+  copy:
+    content: '{{ master_cert }}'
+    dest: /etc/nginx/ssl/nginx.crt
+    owner: root
+    group: root
+    mode: 0644
+  when:
+    - master_cert_available
+
+- name: Copy master cert key for nginx
+  copy:
+    content: '{{ master_cert_key }}'
+    dest: /etc/nginx/ssl/nginx.key
+    owner: root
+    group: root
+    mode: 0644
+  when:
+    - master_cert_available
+
+- name: Fix master priv key
+  script: "tasks/scripts/fix_single_line_file.py {{item}}"
+  with_items:
+    - /etc/nginx/ssl/nginx.crt
+    - /etc/nginx/ssl/nginx.key
+  when:
+    - master_cert_available
 
 - name: Create httpfs proxy pass in nginx configuration
   file:

@@ -61,7 +61,7 @@
     - hadoop_node_type == 'master'
 
 - name: Fix master priv key
-  script: "tasks/scripts/fix_key.py ~/.ssh/id_rsa"
+  script: "tasks/scripts/fix_single_line_file.py ~/.ssh/id_rsa"
   when:
     - master_key == True
     - hadoop_node_type == 'master'

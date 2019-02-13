@@ -5,6 +5,12 @@
   when:
     - master_pub_key != "" or master_priv_key != ""
 
+- name: Check master cert
+  set_fact:
+    master_cert_available: true
+  when:
+    - master_cert != "" or master_cert_key != ""
+
 - name: Check hadoop version
   set_fact:
     hadoop_2: true
