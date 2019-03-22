@@ -192,7 +192,7 @@
     dest: "/etc/ssh/ssh_config"
     marker: "# {mark} PRIVATE IPS"
     block: |
-      Host {{ ".".join(hadoop_master.split(".")[:-2]) }}.*
+      Host *{{ "?".join(hadoop_master.split(".")[:-2]) }}?*  # example: *10?10?* for an hostname like host-10-10-42-48.openstacklocal,10.10.42.48
           StrictHostKeyChecking no
           UserKnownHostsFile=/dev/null
       
