@@ -3,7 +3,7 @@ tmp: ~/temp
 # installation folder
 opt: /opt
 # jdk rpm file name
-jdk_file: jdk-8u201-linux-x64.rpm
+jdk_file: jdk-8u162-linux-x64.rpm
 # list servers to download jdk
 jdk_mirrors: ["https://s3.amazonaws.com/datapassport-lib"]
 # The type of the node: slave / master / resourcemanager / nodemanager / datanode / namenode
