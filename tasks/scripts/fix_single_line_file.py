@@ -24,6 +24,8 @@ def main():
             content_type = 'certificate'
         elif content.find("-----BEGIN PRIVATE KEY-----") != -1:
             content_type = 'priv_key'
+        elif content.find("-----BEGIN RSA PRIVATE") != -1:
+            content_type = 'rsa_priv_key'
 
     if lines <= 1:
         print("[FIX Single line] File malformed... Single line file...")
@@ -36,6 +38,8 @@ def main():
             new_file = head_tail_composer(content, 2)
         elif content_type == 'priv_key':
             new_file = head_tail_composer(content, 3)
+        elif content_type == 'rsa_priv_key':
+            new_file = head_tail_composer(content, 4)
         else:
             new_file = "\n".join(content)
 
