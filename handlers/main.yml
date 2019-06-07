@@ -1,25 +1,25 @@
 - name: restart hadoop-dfs
   action: shell {{ hadoop_home }}/sbin/hadoop-daemon.sh  --script hdfs stop namenode; {{ hadoop_home }}/sbin/hadoop-daemon.sh  --script hdfs start namenode
-  when: ( hadoop_type_of_node == 'master' ) or ( hadoop_type_of_node == 'namenode' )
+  when: ( hadoop_type_of_node == 'master' ) or ( hadoop_type_of_node == 'namenode' ) or ( hadoop_type_of_node == 'master_and_slave' )
   
 - name: restart yarn-resourcemanager
   action: shell {{ hadoop_home }}/sbin/yarn-daemon.sh stop resourcemanager; {{ hadoop_home }}/sbin/yarn-daemon.sh start resourcemanager
-  when: ( hadoop_type_of_node == 'master' ) or ( hadoop_type_of_node == 'resourcemanager' )
+  when: ( hadoop_type_of_node == 'master' ) or ( hadoop_type_of_node == 'resourcemanager' ) or ( hadoop_type_of_node == 'master_and_slave' )
    
 - name: restart hadoop-datanode
   action: shell {{ hadoop_home }}/sbin/hadoop-daemon.sh  --script hdfs stop datanode; {{ hadoop_home }}/sbin/hadoop-daemon.sh  --script hdfs start datanode
-  when: ( hadoop_type_of_node == 'slave' ) or ( hadoop_type_of_node == 'datanode' )
+  when: ( hadoop_type_of_node == 'slave' ) or ( hadoop_type_of_node == 'datanode' ) or ( hadoop_type_of_node == 'master_and_slave' )
   
 - name: restart yarn-nodemanager
   action: shell {{ hadoop_home }}/sbin/yarn-daemon.sh stop nodemanager; {{ hadoop_home }}/sbin/yarn-daemon.sh start nodemanager
-  when: ( hadoop_type_of_node == 'slave' ) or ( hadoop_type_of_node == 'nodemanager' )
+  when: ( hadoop_type_of_node == 'slave' ) or ( hadoop_type_of_node == 'nodemanager' ) or ( hadoop_type_of_node == 'master_and_slave' )
   
 - name: refreshDFSNodes
   command: "{{ hadoop_home }}/bin/hdfs dfsadmin -refreshNodes"
-  when: ( hadoop_type_of_node == 'master' ) or ( hadoop_type_of_node == 'namenode' )
+  when: ( hadoop_type_of_node == 'master' ) or ( hadoop_type_of_node == 'namenode' ) or ( hadoop_type_of_node == 'master_and_slave' )
   ignore_errors: yes
 
 - name: refreshYarnNodes
   command: "{{ hadoop_home }}/bin/yarn rmadmin -refreshNodes"
-  when: ( hadoop_type_of_node == 'master' ) or ( hadoop_type_of_node == 'resourcemanager' )
+  when: ( hadoop_type_of_node == 'master' ) or ( hadoop_type_of_node == 'resourcemanager' ) or ( hadoop_type_of_node == 'master_and_slave' )
   ignore_errors: yes
