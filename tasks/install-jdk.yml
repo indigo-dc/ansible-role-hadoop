@@ -26,15 +26,3 @@
     name: '{{ opt }}/{{ jdk_file }}'
     state: present
   when: "ansible_os_family == 'RedHat'"
-
-- name: download unlimited strength
-  local_action: get_url url='{{ jdk_mirrors|random }}/jce_policy-8.tar' dest='{{ tmp }}/jce_policy-8.tar' force=no
-  become: false
-  register: result
-  until: result is success
-  retries: 5
-  delay: 2
-  when: hadoop_type_of_node == 'master'
-
-- name: unarchive unlimited strength
-  unarchive: src='{{ tmp }}/jce_policy-8.tar' dest="/usr/java/latest/jre/lib/security"
